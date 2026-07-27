@@ -30,6 +30,7 @@ export default function Navbar() {
           <>
             <Link to="/dashboard">{t('navbar.dashboard')}</Link>
             <Link to="/applications">{t('navbar.applications')}</Link>
+            <Link to="/calendar">{t('navbar.calendar')}</Link>
             <span className="navbar-user">{user?.name}</span>
             <button type="button" onClick={handleLogout}>
               {t('navbar.logout')}

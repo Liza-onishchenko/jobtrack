@@ -18,6 +18,13 @@
   --series-4: #eda100;
   --series-5: #1baf7a;
 
+  /* Purple ordinal ramp for the activity heatmap — validated with --ordinal */
+  --heat-0: transparent;
+  --heat-1: #a78bfa;
+  --heat-2: #8b5cf6;
+  --heat-3: #6d28d9;
+  --heat-4: #4c1d95;
+
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
@@ -56,6 +63,12 @@
     --series-3: #d55181;
     --series-4: #c98500;
     --series-5: #199e70;
+
+    --heat-0: transparent;
+    --heat-1: #6d28d9;
+    --heat-2: #8b5cf6;
+    --heat-3: #a78bfa;
+    --heat-4: #c4b5fd;
   }
 
   #social .button-icon {

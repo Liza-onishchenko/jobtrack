@@ -3,6 +3,7 @@
     "brand": "JobTrack",
     "dashboard": "Dashboard",
     "applications": "Applications",
+    "calendar": "Calendar",
     "logout": "Log out",
     "login": "Log in",
     "signup": "Sign up"
@@ -132,5 +133,17 @@
     "needsAttention": "Needs attention",
     "byPlatform": "By platform",
     "byStatus": "By status"
+  },
+  "calendar": {
+    "title": "Application Activity",
+    "loading": "Loading...",
+    "error": "Failed to load calendar",
+    "legendLess": "Less",
+    "legendMore": "More",
+    "cellTooltip_one": "{{count}} application on {{date}}",
+    "cellTooltip_other": "{{count}} applications on {{date}}",
+    "cellTooltipZero": "No applications on {{date}}",
+    "dayDetailsHeading": "Applications on {{date}}",
+    "noSelection": "Click a day with activity to see applications."
   }
 }

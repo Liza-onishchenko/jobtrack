@@ -6,6 +6,7 @@ import {
   updateApplication,
   deleteApplication,
   getStats,
+  getCalendar,
 } from '../controllers/jobApplicationController';
 
 const router = Router();
@@ -13,6 +14,7 @@ const router = Router();
 router.use(authMiddleware);
 
 router.get('/stats', getStats);
+router.get('/calendar', getCalendar);
 router.post('/', createApplication);
 router.get('/', getApplications);
 router.put('/:id', updateApplication);

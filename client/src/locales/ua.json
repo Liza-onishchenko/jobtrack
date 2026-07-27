@@ -3,6 +3,7 @@
     "brand": "JobTrack",
     "dashboard": "Дашборд",
     "applications": "Заявки",
+    "calendar": "Календар",
     "logout": "Вийти",
     "login": "Увійти",
     "signup": "Реєстрація"
@@ -132,5 +133,17 @@
     "needsAttention": "Потребує уваги",
     "byPlatform": "По платформах",
     "byStatus": "По статусах"
+  },
+  "calendar": {
+    "title": "Активність заявок",
+    "loading": "Завантаження...",
+    "error": "Не вдалося завантажити календар",
+    "legendLess": "Менше",
+    "legendMore": "Більше",
+    "cellTooltip_one": "{{count}} заявка за {{date}}",
+    "cellTooltip_other": "{{count}} заявок за {{date}}",
+    "cellTooltipZero": "Немає заявок за {{date}}",
+    "dayDetailsHeading": "Заявки за {{date}}",
+    "noSelection": "Натисніть на день з активністю, щоб побачити заявки."
   }
 }

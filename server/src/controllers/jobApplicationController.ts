@@ -169,6 +169,33 @@ export async function deleteApplication(req: AuthRequest, res: Response): Promis
   }
 }
 
+export async function getCalendar(req: AuthRequest, res: Response): Promise<void> {
+  try {
+    const userId = new mongoose.Types.ObjectId(req.userId);
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const results = await JobApplication.aggregate([
+      { $match: { userId, appliedDate: { $gte: sixMonthsAgo } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$appliedDate' } },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const calendar: Record<string, number> = {};
+    for (const entry of results as { _id: string; count: number }[]) {
+      calendar[entry._id] = entry.count;
+    }
+
+    res.json(calendar);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch calendar', error: (error as Error).message });
+  }
+}
+
 export async function getStats(req: AuthRequest, res: Response): Promise<void> {
   try {
     const userId = new mongoose.Types.ObjectId(req.userId);

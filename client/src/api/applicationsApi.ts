@@ -47,3 +47,8 @@ export async function fetchStatsRequest(): Promise<ApplicationStats> {
   const res = await api.get<ApplicationStats>('/applications/stats');
   return res.data;
 }
+
+export async function fetchCalendarRequest(): Promise<Record<string, number>> {
+  const res = await api.get<Record<string, number>>('/applications/calendar');
+  return res.data;
+}

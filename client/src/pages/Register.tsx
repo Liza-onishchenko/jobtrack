@@ -3,10 +3,11 @@ import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import { isAxiosError } from 'axios';
 import { useAppDispatch } from '../app/hooks';
 import { setCredentials } from '../features/auth/authSlice';
 import { registerRequest } from '../api/authApi';
+import { extractErrorMessage } from '../utils/errors';
+import { EMAIL_REGEX } from '../utils/validation';
 
 function validate(
   t: TFunction,
@@ -17,7 +18,7 @@ function validate(
 ): string | null {
   if (!name.trim()) return t('auth.register.errors.nameRequired');
   if (!email.trim()) return t('auth.register.errors.emailRequired');
-  if (!/^\S+@\S+\.\S+$/.test(email)) return t('auth.register.errors.emailInvalid');
+  if (!EMAIL_REGEX.test(email)) return t('auth.register.errors.emailInvalid');
   if (password.length < 6) return t('auth.register.errors.passwordLength');
   if (password !== confirmPassword) return t('auth.register.errors.passwordMismatch');
   return null;
@@ -50,10 +51,7 @@ export default function Register() {
       dispatch(setCredentials(data));
       navigate('/dashboard');
     } catch (err) {
-      const message = isAxiosError<{ message?: string }>(err)
-        ? err.response?.data?.message
-        : undefined;
-      setError(message ?? t('auth.register.errors.failed'));
+      setError(extractErrorMessage(err, t('auth.register.errors.failed')));
     } finally {
       setSubmitting(false);
     }

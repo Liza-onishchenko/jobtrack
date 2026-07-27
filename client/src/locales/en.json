@@ -18,6 +18,7 @@
       "submitting": "Logging in...",
       "noAccount": "Don't have an account?",
       "signupLink": "Sign up",
+      "sessionExpired": "Session expired, please log in again.",
       "errors": {
         "emailRequired": "Email is required",
         "emailInvalid": "Enter a valid email",

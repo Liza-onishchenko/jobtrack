@@ -7,6 +7,7 @@ import JobApplication, {
   Status,
 } from '../models/JobApplication';
 import { AuthRequest } from '../middleware/authMiddleware';
+import { sendServerError } from '../utils/errorResponse';
 
 function isPlatform(value: unknown): value is Platform {
   return typeof value === 'string' && (PLATFORMS as readonly string[]).includes(value);
@@ -22,12 +23,45 @@ function parseDate(value: unknown): Date | null {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
+function isOptionalString(value: unknown): boolean {
+  return value === undefined || typeof value === 'string';
+}
+
+function isOptionalFiniteNumber(value: unknown): boolean {
+  return value === undefined || (typeof value === 'number' && Number.isFinite(value));
+}
+
 export async function createApplication(req: AuthRequest, res: Response): Promise<void> {
   try {
     const { platform, title, company, appliedDate, budget, status, link, notes } = req.body;
 
     if (!platform || !title || !appliedDate) {
       res.status(400).json({ message: 'platform, title and appliedDate are required' });
+      return;
+    }
+
+    if (typeof title !== 'string') {
+      res.status(400).json({ message: 'title must be a string' });
+      return;
+    }
+
+    if (!isOptionalString(company)) {
+      res.status(400).json({ message: 'company must be a string' });
+      return;
+    }
+
+    if (!isOptionalFiniteNumber(budget)) {
+      res.status(400).json({ message: 'budget must be a number' });
+      return;
+    }
+
+    if (!isOptionalString(link)) {
+      res.status(400).json({ message: 'link must be a string' });
+      return;
+    }
+
+    if (!isOptionalString(notes)) {
+      res.status(400).json({ message: 'notes must be a string' });
       return;
     }
 
@@ -61,7 +95,7 @@ export async function createApplication(req: AuthRequest, res: Response): Promis
 
     res.status(201).json(application);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to create application', error: (error as Error).message });
+    sendServerError(res, 'Failed to create application:', error);
   }
 }
 
@@ -89,7 +123,7 @@ export async function getApplications(req: AuthRequest, res: Response): Promise<
     const applications = await JobApplication.find(filter).sort({ appliedDate: -1 });
     res.json(applications);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch applications', error: (error as Error).message });
+    sendServerError(res, 'Failed to fetch applications:', error);
   }
 }
 
@@ -97,6 +131,31 @@ export async function updateApplication(req: AuthRequest, res: Response): Promis
   try {
     const { id } = req.params;
     const { platform, title, company, appliedDate, budget, status, link, notes } = req.body;
+
+    if (!isOptionalString(title)) {
+      res.status(400).json({ message: 'title must be a string' });
+      return;
+    }
+
+    if (!isOptionalString(company)) {
+      res.status(400).json({ message: 'company must be a string' });
+      return;
+    }
+
+    if (!isOptionalFiniteNumber(budget)) {
+      res.status(400).json({ message: 'budget must be a number' });
+      return;
+    }
+
+    if (!isOptionalString(link)) {
+      res.status(400).json({ message: 'link must be a string' });
+      return;
+    }
+
+    if (!isOptionalString(notes)) {
+      res.status(400).json({ message: 'notes must be a string' });
+      return;
+    }
 
     if (platform !== undefined && !isPlatform(platform)) {
       res.status(400).json({ message: `platform must be one of: ${PLATFORMS.join(', ')}` });
@@ -144,7 +203,7 @@ export async function updateApplication(req: AuthRequest, res: Response): Promis
       res.status(400).json({ message: 'Invalid application id' });
       return;
     }
-    res.status(500).json({ message: 'Failed to update application', error: (error as Error).message });
+    sendServerError(res, 'Failed to update application:', error);
   }
 }
 
@@ -165,7 +224,7 @@ export async function deleteApplication(req: AuthRequest, res: Response): Promis
       res.status(400).json({ message: 'Invalid application id' });
       return;
     }
-    res.status(500).json({ message: 'Failed to delete application', error: (error as Error).message });
+    sendServerError(res, 'Failed to delete application:', error);
   }
 }
 
@@ -202,7 +261,7 @@ export async function getCalendar(req: AuthRequest, res: Response): Promise<void
 
     res.json(calendar);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch calendar', error: (error as Error).message });
+    sendServerError(res, 'Failed to fetch calendar:', error);
   }
 }
 
@@ -243,6 +302,6 @@ export async function getStats(req: AuthRequest, res: Response): Promise<void> {
       conversionRate,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch stats', error: (error as Error).message });
+    sendServerError(res, 'Failed to fetch stats:', error);
   }
 }

@@ -2,23 +2,73 @@
 
 Fullstack застосунок для трекінгу відгуків на фріланс-вакансії.
 
+## Функціонал
+
+- **Реєстрація/вхід** через email+пароль (JWT), редагування імені профілю
+- **Заявки (CRUD)** — платформа, назва, компанія (опційно), дата, бюджет, статус, посилання, нотатки; фільтри за платформою та статусом
+- **Dashboard** — ключові метрики (загальна кількість, на співбесіді, конверсія), кругова діаграма розподілу по платформах і стовпчикова по статусах (Recharts), блок "Потребує уваги" для заявок без оновлення понад 3 дні
+- **Календар** — класичний місячний вигляд з кількістю заявок по днях, клік по дню показує список заявок цього дня
+- **Контактна форма** на головній сторінці — надсилає повідомлення в Telegram через бота
+- **Щоденні нагадування** (node-cron, 13:00 Europe/Kyiv) — якщо є заявки зі статусом Sent/Viewed без оновлення понад 3 дні, бот надсилає список у Telegram
+- **Багатомовність** (i18next) — перемикач UA/EN у навбарі, вибір зберігається в localStorage
+- **Темна тема** — фіолетово-бірюзова палітра, dot-grid фон, Google Font Space Grotesk для заголовків
+- **Rate limiting** — обмеження на login/register (10 запитів/15 хв) та контактну форму (5 запитів/15 хв)
+
 ## Стек
 
-**Client** — React, TypeScript, Vite, React Router, Redux Toolkit, Axios, Recharts.
+**Client** — React, TypeScript, Vite, React Router, Redux Toolkit, Axios, Recharts, i18next/react-i18next, lucide-react.
 
-**Server** — Node.js, Express, TypeScript, MongoDB (Mongoose), JWT-автентифікація, Telegram Bot API (сповіщення), node-cron (нагадування).
+**Server** — Node.js, Express, TypeScript, MongoDB (Mongoose), JWT-автентифікація, express-rate-limit, Telegram Bot API (сповіщення), node-cron (нагадування).
+
+## Маршрути клієнта
+
+| Маршрут          | Опис                                  | Доступ         |
+|-------------------|----------------------------------------|----------------|
+| `/`               | Лендінг: опис проєкту, фічі, форма зв'язку | публічний      |
+| `/login`          | Вхід                                   | публічний      |
+| `/register`       | Реєстрація                             | публічний      |
+| `/dashboard`      | Статистика та графіки                  | захищений      |
+| `/applications`   | Список заявок, фільтри, додавання/редагування | захищений |
+| `/calendar`       | Календар активності по місяцях          | захищений      |
+| `/profile`        | Редагування імені користувача          | захищений      |
+
+## API-ендпоінти сервера
+
+| Метод і шлях                        | Опис                                          | Доступ                    |
+|--------------------------------------|------------------------------------------------|---------------------------|
+| `GET /api/health`                    | Перевірка стану сервера                        | публічний                 |
+| `POST /api/auth/register`            | Реєстрація нового користувача                  | публічний, rate-limited   |
+| `POST /api/auth/login`               | Вхід, повертає JWT                             | публічний, rate-limited   |
+| `PUT /api/auth/profile`              | Оновлення імені поточного користувача          | захищений (JWT)           |
+| `GET /api/applications`              | Список заявок (`?platform=`, `?status=`)       | захищений (JWT)           |
+| `POST /api/applications`             | Створити заявку                                | захищений (JWT)           |
+| `PUT /api/applications/:id`          | Оновити заявку                                 | захищений (JWT)           |
+| `DELETE /api/applications/:id`       | Видалити заявку                                | захищений (JWT)           |
+| `GET /api/applications/stats`        | Агрегована статистика                          | захищений (JWT)           |
+| `GET /api/applications/calendar`     | Кількість заявок по днях (`?year=&month=`)     | захищений (JWT)           |
+| `POST /api/contact`                  | Надіслати повідомлення (лендінг → Telegram)    | публічний, rate-limited   |
 
 ## Структура проєкту
 
 ```
 jobtrack/
 ├── client/          # React + TypeScript фронтенд (Vite)
+│   └── src/
+│       ├── api/          # Axios-інстанс і запити до бекенду
+│       ├── app/           # Redux store, типізовані хуки
+│       ├── components/    # Перевикористовувані компоненти
+│       ├── features/      # Redux slices (auth, applications)
+│       ├── locales/       # Переклади en.json / ua.json
+│       ├── pages/         # Сторінки-роути
+│       └── utils/         # Спільні хелпери (валідація, помилки, дати)
 └── server/          # Express + TypeScript бекенд
     └── src/
-        ├── models/       # Mongoose-моделі
-        ├── routes/       # Express-роути
-        ├── controllers/  # Обробники запитів
-        └── middleware/   # Express middleware (auth, error handling тощо)
+        ├── controllers/   # Обробники запитів
+        ├── jobs/           # Cron-задачі
+        ├── middleware/     # auth, rate limiting
+        ├── models/         # Mongoose-моделі
+        ├── routes/         # Express-роути
+        └── utils/          # Telegram-нотифікації, обробка помилок
 ```
 
 ## Запуск
@@ -28,7 +78,7 @@ jobtrack/
 ```bash
 cd server
 npm install
-cp .env.example .env   # заповніть значення (PORT, MONGO_URI, JWT_SECRET, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+cp .env.example .env   # заповніть значення, див. таблицю нижче
 npm run dev             # режим розробки (ts-node-dev)
 npm run build && npm start   # production-збірка
 ```
@@ -38,17 +88,24 @@ npm run build && npm start   # production-збірка
 ```bash
 cd client
 npm install
+cp .env.example .env   # опційно, є дефолт на http://localhost:5000/api
 npm run dev
 ```
 
 Клієнт за замовчуванням доступний на `http://localhost:5173`, сервер — на `http://localhost:5000`.
 
-## Змінні середовища сервера
+## Змінні середовища сервера (`server/.env`)
 
-| Змінна                | Опис                                                      |
-|-----------------------|-------------------------------------------------------------|
-| `PORT`                | Порт, на якому запускається сервер                         |
-| `MONGO_URI`           | Рядок підключення до MongoDB                               |
-| `JWT_SECRET`          | Секрет для підпису JWT-токенів                             |
-| `TELEGRAM_BOT_TOKEN`  | Токен Telegram-бота (від @BotFather) для сповіщень         |
-| `TELEGRAM_CHAT_ID`    | ID чату/користувача, куди бот надсилає сповіщення           |
+| Змінна                | Опис                                                       |
+|-----------------------|--------------------------------------------------------------|
+| `PORT`                | Порт, на якому запускається сервер                          |
+| `MONGO_URI`           | Рядок підключення до MongoDB                                |
+| `JWT_SECRET`          | Секрет для підпису JWT-токенів                              |
+| `TELEGRAM_BOT_TOKEN`  | Токен Telegram-бота (від @BotFather) для сповіщень          |
+| `TELEGRAM_CHAT_ID`    | ID чату/користувача, куди бот надсилає сповіщення            |
+
+## Змінні середовища клієнта (`client/.env`)
+
+| Змінна          | Опис                                                    |
+|------------------|------------------------------------------------------------|
+| `VITE_API_URL`   | Базовий URL API сервера (за замовчуванням `http://localhost:5000/api`) |

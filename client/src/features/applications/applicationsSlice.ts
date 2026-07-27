@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { isAxiosError } from 'axios';
 import type { JobApplication, Platform, Status } from '../../types/jobApplication';
 import {
   fetchApplicationsRequest,
@@ -10,6 +9,7 @@ import {
 } from '../../api/applicationsApi';
 import type { ApplicationInput } from '../../api/applicationsApi';
 import type { RootState } from '../../app/store';
+import { extractErrorMessage } from '../../utils/errors';
 
 interface ApplicationsFilters {
   platform: Platform | '';
@@ -29,13 +29,6 @@ const initialState: ApplicationsState = {
   error: null,
   filters: { platform: '', status: '' },
 };
-
-function extractErrorMessage(error: unknown, fallback: string): string {
-  if (isAxiosError<{ message?: string }>(error)) {
-    return error.response?.data?.message ?? fallback;
-  }
-  return fallback;
-}
 
 export const fetchApplications = createAsyncThunk(
   'applications/fetchAll',

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import { AuthRequest } from '../middleware/authMiddleware';
+import { sendServerError } from '../utils/errorResponse';
 
 const NAME_MAX_LENGTH = 50;
 
@@ -33,7 +34,7 @@ export async function register(req: Request, res: Response): Promise<void> {
       user: { id: user.id, email: user.email, name: user.name },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Registration failed', error: (error as Error).message });
+    sendServerError(res, 'Registration failed:', error);
   }
 }
 
@@ -65,7 +66,7 @@ export async function login(req: Request, res: Response): Promise<void> {
       user: { id: user.id, email: user.email, name: user.name },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Login failed', error: (error as Error).message });
+    sendServerError(res, 'Login failed:', error);
   }
 }
 
@@ -99,6 +100,6 @@ export async function updateProfile(req: AuthRequest, res: Response): Promise<vo
       user: { id: user.id, email: user.email, name: user.name },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to update profile', error: (error as Error).message });
+    sendServerError(res, 'Failed to update profile:', error);
   }
 }

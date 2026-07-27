@@ -22,8 +22,20 @@ export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchApplicationsRequest({}).then(setApplications).catch(() => undefined);
-  }, []);
+    let cancelled = false;
+
+    fetchApplicationsRequest({})
+      .then((data) => {
+        if (!cancelled) setApplications(data);
+      })
+      .catch(() => {
+        if (!cancelled) setError(t('calendar.error'));
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [t]);
 
   useEffect(() => {
     let cancelled = false;

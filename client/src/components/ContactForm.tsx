@@ -2,13 +2,14 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import { isAxiosError } from 'axios';
 import { sendContactMessage } from '../api/contactApi';
+import { extractErrorMessage } from '../utils/errors';
+import { EMAIL_REGEX } from '../utils/validation';
 
 function validate(t: TFunction, name: string, email: string, message: string): string | null {
   if (!name.trim()) return t('contact.errors.nameRequired');
   if (!email.trim()) return t('contact.errors.emailRequired');
-  if (!/^\S+@\S+\.\S+$/.test(email)) return t('contact.errors.emailInvalid');
+  if (!EMAIL_REGEX.test(email)) return t('contact.errors.emailInvalid');
   if (!message.trim()) return t('contact.errors.messageRequired');
   return null;
 }
@@ -41,8 +42,7 @@ export default function ContactForm() {
       setEmail('');
       setMessage('');
     } catch (err) {
-      const msg = isAxiosError<{ message?: string }>(err) ? err.response?.data?.message : undefined;
-      setError(msg ?? t('contact.errors.failed'));
+      setError(extractErrorMessage(err, t('contact.errors.failed')));
       setSuccess(false);
     } finally {
       setSubmitting(false);

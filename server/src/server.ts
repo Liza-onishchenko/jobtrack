@@ -1,4 +1,5 @@
 import express from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
@@ -6,6 +7,7 @@ import authRoutes from './routes/authRoutes';
 import jobApplicationRoutes from './routes/jobApplicationRoutes';
 import contactRoutes from './routes/contactRoutes';
 import { scheduleStaleApplicationsJob } from './jobs/staleApplicationsJob';
+import { GENERIC_ERROR_MESSAGE } from './utils/errorResponse';
 
 dotenv.config();
 
@@ -23,6 +25,12 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/applications', jobApplicationRoutes);
 app.use('/api/contact', contactRoutes);
+
+// Centralized error handler — must be registered last, after all routes/middleware.
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ message: GENERIC_ERROR_MESSAGE });
+});
 
 async function start() {
   try {

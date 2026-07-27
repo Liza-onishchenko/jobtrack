@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { isAxiosError } from 'axios';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { updateUser } from '../features/auth/authSlice';
 import { updateProfileRequest } from '../api/authApi';
+import { extractErrorMessage } from '../utils/errors';
 
 const NAME_MAX_LENGTH = 50;
 
@@ -39,10 +39,7 @@ export default function Profile() {
       dispatch(updateUser(updated));
       setSuccess(true);
     } catch (err) {
-      const message = isAxiosError<{ message?: string }>(err)
-        ? err.response?.data?.message
-        : undefined;
-      setError(message ?? t('profile.errors.failed'));
+      setError(extractErrorMessage(err, t('profile.errors.failed')));
       setSuccess(false);
     } finally {
       setSubmitting(false);

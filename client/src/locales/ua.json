@@ -18,6 +18,7 @@
       "submitting": "Вхід...",
       "noAccount": "Немає акаунта?",
       "signupLink": "Зареєструватися",
+      "sessionExpired": "Сесія закінчилась, увійдіть знову.",
       "errors": {
         "emailRequired": "Email обов'язковий",
         "emailInvalid": "Введіть коректний email",

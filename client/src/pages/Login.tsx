@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import { isAxiosError } from 'axios';
 import { useAppDispatch } from '../app/hooks';
 import { setCredentials } from '../features/auth/authSlice';
 import { loginRequest } from '../api/authApi';
+import { extractErrorMessage } from '../utils/errors';
+import { EMAIL_REGEX } from '../utils/validation';
+import { SESSION_MESSAGE_KEY } from '../api/axios';
 
 function validate(t: TFunction, email: string, password: string): string | null {
   if (!email.trim()) return t('auth.login.errors.emailRequired');
-  if (!/^\S+@\S+\.\S+$/.test(email)) return t('auth.login.errors.emailInvalid');
+  if (!EMAIL_REGEX.test(email)) return t('auth.login.errors.emailInvalid');
   if (!password) return t('auth.login.errors.passwordRequired');
   return null;
 }
@@ -23,6 +25,13 @@ export default function Login() {
   const [submitting, setSubmitting] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem(SESSION_MESSAGE_KEY) === 'sessionExpired') {
+      setError(t('auth.login.sessionExpired'));
+      sessionStorage.removeItem(SESSION_MESSAGE_KEY);
+    }
+  }, [t]);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -40,10 +49,7 @@ export default function Login() {
       dispatch(setCredentials(data));
       navigate('/dashboard');
     } catch (err) {
-      const message = isAxiosError<{ message?: string }>(err)
-        ? err.response?.data?.message
-        : undefined;
-      setError(message ?? t('auth.login.errors.failed'));
+      setError(extractErrorMessage(err, t('auth.login.errors.failed')));
     } finally {
       setSubmitting(false);
     }

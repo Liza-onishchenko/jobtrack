@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { sendTelegramNotification } from '../utils/telegram';
+import { sendServerError } from '../utils/errorResponse';
 
 const EMAIL_RE = /^\S+@\S+\.\S+$/;
 
@@ -18,11 +19,11 @@ export async function sendContactMessage(req: Request, res: Response): Promise<v
 
   try {
     await sendTelegramNotification(
-      `📩 Нове повідомлення з лендінгу\nВід: ${name} (${email})\n${message}`,
+      `📩 Нове повідомлення\nВід: ${name} (${email})\n${message}`,
     );
 
     res.json({ message: 'Message sent successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to send message', error: (error as Error).message });
+    sendServerError(res, 'Failed to send contact message:', error);
   }
 }

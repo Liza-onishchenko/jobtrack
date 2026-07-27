@@ -22,12 +22,13 @@ import type { ApplicationStats, JobApplication } from '../types/jobApplication';
 import { isStaleApplication } from '../utils/staleness';
 
 const PLATFORM_COLORS = ['var(--series-1)', 'var(--series-2)', 'var(--series-3)', 'var(--series-4)'];
+// Order matches STATUSES (Sent, Viewed, Interview, Rejected, Accepted) and mirrors StatusBadge's mapping.
 const STATUS_COLORS = [
   'var(--series-1)',
-  'var(--series-2)',
-  'var(--series-3)',
-  'var(--series-4)',
   'var(--series-5)',
+  'var(--series-4)',
+  'var(--series-3)',
+  'var(--series-2)',
 ];
 
 function ChartTooltip({ active, payload }: TooltipContentProps) {

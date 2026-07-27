@@ -13,23 +13,33 @@ export default function Landing() {
   return (
     <div className="landing">
       <section className="hero">
-        <h1>{t('landing.heroTitle')}</h1>
-        <p>{t('landing.heroDescription')}</p>
-        <div className="hero-actions">
-          {isAuthenticated ? (
-            <Link to="/dashboard" className="button-link">
-              {t('landing.goToDashboard')}
-            </Link>
-          ) : (
-            <>
-              <Link to="/login" className="button-link">
-                {t('landing.login')}
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="hero-content">
+          <h1>{t('landing.heroTitle')}</h1>
+          <p>{t('landing.heroDescription')}</p>
+          <div className="hero-actions">
+            {isAuthenticated ? (
+              <Link to="/dashboard" className="button-link">
+                {t('landing.goToDashboard')}
               </Link>
-              <Link to="/register" className="button-link secondary">
-                {t('landing.signup')}
-              </Link>
-            </>
-          )}
+            ) : (
+              <>
+                <Link to="/login" className="button-link">
+                  {t('landing.login')}
+                </Link>
+                <Link to="/register" className="button-link secondary">
+                  {t('landing.signup')}
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+        <div className="hero-visual">
+          <img
+            src="/dashboard-preview.png"
+            alt="JobTrack dashboard preview"
+            className="dashboard-mockup"
+          />
         </div>
       </section>
 

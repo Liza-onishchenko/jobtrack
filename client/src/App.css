@@ -381,15 +381,15 @@
 button.danger {
   font: inherit;
   padding: 6px 12px;
-  border: 1px solid rgba(220, 38, 38, 0.4);
+  border: 1px solid rgba(248, 113, 113, 0.4);
   border-radius: 6px;
-  background: rgba(220, 38, 38, 0.08);
-  color: #dc2626;
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
   cursor: pointer;
 }
 
 button.danger:hover {
-  background: rgba(220, 38, 38, 0.15);
+  background: rgba(248, 113, 113, 0.18);
 }
 
 .status-badge {
@@ -404,28 +404,28 @@ button.danger:hover {
 }
 
 .status-sent {
-  color: #6b7280;
-  background: rgba(107, 114, 128, 0.12);
+  color: var(--status-sent);
+  background: color-mix(in srgb, var(--status-sent) 15%, transparent);
 }
 
 .status-viewed {
-  color: #2563eb;
-  background: rgba(37, 99, 235, 0.12);
+  color: var(--status-viewed);
+  background: color-mix(in srgb, var(--status-viewed) 15%, transparent);
 }
 
 .status-interview {
-  color: #d97706;
-  background: rgba(217, 119, 6, 0.12);
+  color: var(--status-interview);
+  background: color-mix(in srgb, var(--status-interview) 15%, transparent);
 }
 
 .status-rejected {
-  color: #dc2626;
-  background: rgba(220, 38, 38, 0.12);
+  color: var(--status-rejected);
+  background: color-mix(in srgb, var(--status-rejected) 15%, transparent);
 }
 
 .status-accepted {
-  color: #16a34a;
-  background: rgba(22, 163, 74, 0.12);
+  color: var(--status-accepted);
+  background: color-mix(in srgb, var(--status-accepted) 15%, transparent);
 }
 
 .modal-backdrop {
@@ -516,26 +516,76 @@ button.danger:hover {
 }
 
 .hero {
-  padding: 64px 24px;
-  text-align: center;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 48px;
+  padding: 80px 24px;
+  overflow: hidden;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    padding: 48px 24px;
+  }
+}
+
+.hero-glow {
+  position: absolute;
+  top: -120px;
+  left: -120px;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: left;
 }
 
 .hero h1 {
-  max-width: 640px;
-  margin: 0 auto 16px;
+  margin: 0 0 16px;
 }
 
-.hero p {
-  max-width: 560px;
-  margin: 0 auto;
+.hero-content p {
+  max-width: 520px;
   color: var(--text);
 }
 
 .hero-actions {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 12px;
   margin-top: 24px;
+}
+
+.hero-visual {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 900px) {
+    order: -1;
+  }
+}
+
+.dashboard-mockup {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(244, 244, 245, 0.1);
+  box-shadow: 0 30px 80px -20px rgba(139, 92, 246, 0.45);
+  background: linear-gradient(135deg, var(--accent-bg), var(--accent-2-bg));
+  transform: perspective(1000px) rotateY(-8deg) rotateX(3deg) rotate(-1deg);
 }
 
 .features {
@@ -640,9 +690,9 @@ button.danger:hover {
 }
 
 .form-success {
-  background: rgba(22, 163, 74, 0.1);
-  border: 1px solid rgba(22, 163, 74, 0.4);
-  color: #16a34a;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.4);
+  color: #4ade80;
   border-radius: 6px;
   padding: 8px 12px;
   margin-bottom: 16px;

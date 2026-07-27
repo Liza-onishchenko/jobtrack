@@ -4,6 +4,7 @@
     "dashboard": "Dashboard",
     "applications": "Applications",
     "calendar": "Calendar",
+    "profile": "Profile",
     "logout": "Log out",
     "login": "Log in",
     "signup": "Sign up"
@@ -145,5 +146,17 @@
     "dayTooltip_other": "{{count}} applications on {{date}}",
     "dayDetailsHeading": "Applications on {{date}}",
     "noSelection": "Click a day with activity to see applications."
+  },
+  "profile": {
+    "title": "Profile",
+    "nameLabel": "Name",
+    "save": "Save",
+    "saving": "Saving...",
+    "success": "Profile updated successfully.",
+    "errors": {
+      "nameRequired": "Name is required",
+      "nameTooLong": "Name must be at most 50 characters",
+      "failed": "Failed to update profile. Please try again."
+    }
   }
 }

@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import { AuthRequest } from '../middleware/authMiddleware';
+
+const NAME_MAX_LENGTH = 50;
 
 function generateToken(userId: string): string {
   const secret = process.env.JWT_SECRET as string;
@@ -63,5 +66,39 @@ export async function login(req: Request, res: Response): Promise<void> {
     });
   } catch (error) {
     res.status(500).json({ message: 'Login failed', error: (error as Error).message });
+  }
+}
+
+export async function updateProfile(req: AuthRequest, res: Response): Promise<void> {
+  try {
+    const { name } = req.body;
+
+    if (typeof name !== 'string' || !name.trim()) {
+      res.status(400).json({ message: 'name is required' });
+      return;
+    }
+
+    const trimmedName = name.trim();
+    if (trimmedName.length > NAME_MAX_LENGTH) {
+      res.status(400).json({ message: `name must be at most ${NAME_MAX_LENGTH} characters` });
+      return;
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { name: trimmedName },
+      { returnDocument: 'after', runValidators: true },
+    );
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.json({
+      user: { id: user.id, email: user.email, name: user.name },
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update profile', error: (error as Error).message });
   }
 }

@@ -38,7 +38,12 @@ export default function Navbar() {
             <NavLink to="/calendar" className={({ isActive }) => (isActive ? 'active' : '')}>
               {t('navbar.calendar')}
             </NavLink>
-            <span className="navbar-user">{user?.name}</span>
+            <NavLink
+              to="/profile"
+              className={({ isActive }) => `navbar-user${isActive ? ' active' : ''}`}
+            >
+              {user?.name}
+            </NavLink>
             <button type="button" onClick={handleLogout}>
               {t('navbar.logout')}
             </button>

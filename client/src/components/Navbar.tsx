@@ -21,6 +21,7 @@ export default function Navbar() {
         {isAuthenticated ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
+            <Link to="/applications">Applications</Link>
             <span className="navbar-user">{user?.name}</span>
             <button type="button" onClick={handleLogout}>
               Log out

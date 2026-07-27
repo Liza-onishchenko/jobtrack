@@ -123,4 +123,252 @@
 
 .page {
   padding: 48px 24px;
+  text-align: left;
+}
+
+.applications-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.applications-header button {
+  font: inherit;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.filters {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.filters select {
+  font: inherit;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.applications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.application-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.application-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.application-platform {
+  font-size: 13px;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.application-title {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-h);
+}
+
+.application-company {
+  margin: 0;
+  color: var(--text);
+}
+
+.application-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.application-link {
+  align-self: flex-start;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.application-notes {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.application-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.application-card-footer select {
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+button.danger {
+  font: inherit;
+  padding: 6px 12px;
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  border-radius: 6px;
+  background: rgba(220, 38, 38, 0.08);
+  color: #dc2626;
+  cursor: pointer;
+}
+
+button.danger:hover {
+  background: rgba(220, 38, 38, 0.15);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+.status-sent {
+  color: #6b7280;
+  background: rgba(107, 114, 128, 0.12);
+}
+
+.status-viewed {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.status-interview {
+  color: #d97706;
+  background: rgba(217, 119, 6, 0.12);
+}
+
+.status-rejected {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.12);
+}
+
+.status-accepted {
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.12);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: left;
+}
+
+.modal h2 {
+  margin: 0 0 16px;
+  font-size: 22px;
+}
+
+.modal form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.modal form input,
+.modal form select,
+.modal form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  font: inherit;
+  padding: 8px 10px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.modal form textarea {
+  resize: vertical;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.modal-actions button {
+  font: inherit;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-actions button[type='submit'] {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+}
+
+.modal-actions button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modal-actions button[type='button'] {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
 }

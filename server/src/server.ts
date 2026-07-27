@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import authRoutes from './routes/authRoutes';
 
 dotenv.config();
 
@@ -15,6 +16,8 @@ app.use(express.json());
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
+
+app.use('/api/auth', authRoutes);
 
 async function start() {
   try {

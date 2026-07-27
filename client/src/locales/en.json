@@ -138,11 +138,11 @@
     "title": "Application Activity",
     "loading": "Loading...",
     "error": "Failed to load calendar",
-    "legendLess": "Less",
-    "legendMore": "More",
-    "cellTooltip_one": "{{count}} application on {{date}}",
-    "cellTooltip_other": "{{count}} applications on {{date}}",
-    "cellTooltipZero": "No applications on {{date}}",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "weekdays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    "dayTooltip_one": "{{count}} application on {{date}}",
+    "dayTooltip_other": "{{count}} applications on {{date}}",
     "dayDetailsHeading": "Applications on {{date}}",
     "noSelection": "Click a day with activity to see applications."
   }

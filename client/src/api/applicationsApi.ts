@@ -48,7 +48,9 @@ export async function fetchStatsRequest(): Promise<ApplicationStats> {
   return res.data;
 }
 
-export async function fetchCalendarRequest(): Promise<Record<string, number>> {
-  const res = await api.get<Record<string, number>>('/applications/calendar');
+export async function fetchCalendarRequest(
+  params: { year: number; month: number },
+): Promise<Record<string, number>> {
+  const res = await api.get<Record<string, number>>('/applications/calendar', { params });
   return res.data;
 }

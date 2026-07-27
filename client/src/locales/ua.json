@@ -138,11 +138,11 @@
     "title": "Активність заявок",
     "loading": "Завантаження...",
     "error": "Не вдалося завантажити календар",
-    "legendLess": "Менше",
-    "legendMore": "Більше",
-    "cellTooltip_one": "{{count}} заявка за {{date}}",
-    "cellTooltip_other": "{{count}} заявок за {{date}}",
-    "cellTooltipZero": "Немає заявок за {{date}}",
+    "prevMonth": "Попередній місяць",
+    "nextMonth": "Наступний місяць",
+    "weekdays": ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
+    "dayTooltip_one": "{{count}} заявка за {{date}}",
+    "dayTooltip_other": "{{count}} заявок за {{date}}",
     "dayDetailsHeading": "Заявки за {{date}}",
     "noSelection": "Натисніть на день з активністю, щоб побачити заявки."
   }

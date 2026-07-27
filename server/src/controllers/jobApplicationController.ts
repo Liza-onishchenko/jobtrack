@@ -172,11 +172,21 @@ export async function deleteApplication(req: AuthRequest, res: Response): Promis
 export async function getCalendar(req: AuthRequest, res: Response): Promise<void> {
   try {
     const userId = new mongoose.Types.ObjectId(req.userId);
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+    const now = new Date();
+
+    const year = req.query.year !== undefined ? Number(req.query.year) : now.getUTCFullYear();
+    const month = req.query.month !== undefined ? Number(req.query.month) : now.getUTCMonth() + 1;
+
+    if (!Number.isInteger(year) || !Number.isInteger(month) || month < 1 || month > 12) {
+      res.status(400).json({ message: 'month must be an integer 1-12 and year must be a valid integer' });
+      return;
+    }
+
+    const start = new Date(Date.UTC(year, month - 1, 1));
+    const end = new Date(Date.UTC(year, month, 1));
 
     const results = await JobApplication.aggregate([
-      { $match: { userId, appliedDate: { $gte: sixMonthsAgo } } },
+      { $match: { userId, appliedDate: { $gte: start, $lt: end } } },
       {
         $group: {
           _id: { $dateToString: { format: '%Y-%m-%d', date: '$appliedDate' } },

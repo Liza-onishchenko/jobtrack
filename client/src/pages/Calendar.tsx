@@ -2,11 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchApplicationsRequest, fetchCalendarRequest } from '../api/applicationsApi';
 import type { JobApplication } from '../types/jobApplication';
-import { buildHeatmapWeeks, dateToKey } from '../utils/heatmap';
-import type { HeatmapDay } from '../utils/heatmap';
+import { buildMonthGrid, dateToKey } from '../utils/calendarGrid';
 import StatusBadge from '../components/StatusBadge';
-
-const LEVEL_CLASS = ['level-0', 'level-1', 'level-2', 'level-3', 'level-4'];
 
 function localeTag(language: string): string {
   return language === 'ua' ? 'uk-UA' : 'en-US';
@@ -14,6 +11,9 @@ function localeTag(language: string): string {
 
 export default function Calendar() {
   const { t, i18n } = useTranslation();
+  const now = useMemo(() => new Date(), []);
+  const [viewYear, setViewYear] = useState(now.getUTCFullYear());
+  const [viewMonth, setViewMonth] = useState(now.getUTCMonth());
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,15 +21,16 @@ export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   useEffect(() => {
+    fetchApplicationsRequest({}).then(setApplications).catch(() => undefined);
+  }, []);
+
+  useEffect(() => {
     let cancelled = false;
 
     setLoading(true);
-    Promise.all([fetchCalendarRequest(), fetchApplicationsRequest({})])
-      .then(([calendarData, applicationsData]) => {
-        if (!cancelled) {
-          setCounts(calendarData);
-          setApplications(applicationsData);
-        }
+    fetchCalendarRequest({ year: viewYear, month: viewMonth + 1 })
+      .then((data) => {
+        if (!cancelled) setCounts(data);
       })
       .catch(() => {
         if (!cancelled) setError(t('calendar.error'));
@@ -41,80 +42,108 @@ export default function Calendar() {
     return () => {
       cancelled = true;
     };
-  }, [t]);
+  }, [viewYear, viewMonth, t]);
 
-  const weeks = useMemo(() => buildHeatmapWeeks(counts), [counts]);
+  const weeks = useMemo(() => buildMonthGrid(viewYear, viewMonth, counts), [viewYear, viewMonth, counts]);
+  const weekdays = t('calendar.weekdays', { returnObjects: true }) as string[];
 
-  const monthLabels = useMemo(() => {
-    let lastMonth = -1;
-    return weeks.map((week) => {
-      const firstDay = new Date(week[0].date);
-      const month = firstDay.getUTCMonth();
-      if (month === lastMonth) return '';
-      lastMonth = month;
-      return firstDay.toLocaleDateString(localeTag(i18n.language), { month: 'short', timeZone: 'UTC' });
-    });
-  }, [weeks, i18n.language]);
+  const monthLabel = new Date(Date.UTC(viewYear, viewMonth, 1)).toLocaleDateString(
+    localeTag(i18n.language),
+    { month: 'long', year: 'numeric', timeZone: 'UTC' },
+  );
 
-  const selectedApplications = selectedDate
-    ? applications.filter((application) => dateToKey(new Date(application.appliedDate)) === selectedDate)
-    : [];
+  function goToPrevMonth() {
+    setSelectedDate(null);
+    if (viewMonth === 0) {
+      setViewYear(viewYear - 1);
+      setViewMonth(11);
+    } else {
+      setViewMonth(viewMonth - 1);
+    }
+  }
 
-  function handleCellClick(day: HeatmapDay) {
-    if (day.count === 0) return;
-    setSelectedDate(day.date === selectedDate ? null : day.date);
+  function goToNextMonth() {
+    setSelectedDate(null);
+    if (viewMonth === 11) {
+      setViewYear(viewYear + 1);
+      setViewMonth(0);
+    } else {
+      setViewMonth(viewMonth + 1);
+    }
   }
 
   function formatDate(dateKey: string): string {
     return new Date(dateKey).toLocaleDateString(localeTag(i18n.language), { timeZone: 'UTC' });
   }
 
-  function cellTooltip(day: HeatmapDay): string {
-    if (day.count === 0) return t('calendar.cellTooltipZero', { date: formatDate(day.date) });
-    return t('calendar.cellTooltip', { count: day.count, date: formatDate(day.date) });
+  function handleDayClick(dateKey: string, isCurrentMonth: boolean, count: number) {
+    if (!isCurrentMonth || count === 0) return;
+    setSelectedDate(dateKey === selectedDate ? null : dateKey);
   }
+
+  const selectedApplications = selectedDate
+    ? applications.filter((application) => dateToKey(new Date(application.appliedDate)) === selectedDate)
+    : [];
 
   return (
     <div className="page">
       <h1>{t('calendar.title')}</h1>
+
+      <div className="calendar-nav">
+        <button type="button" onClick={goToPrevMonth} aria-label={t('calendar.prevMonth')}>
+          ◀ {t('calendar.prevMonth')}
+        </button>
+        <span className="calendar-month-label">{monthLabel}</span>
+        <button type="button" onClick={goToNextMonth} aria-label={t('calendar.nextMonth')}>
+          {t('calendar.nextMonth')} ▶
+        </button>
+      </div>
 
       {loading && <p>{t('calendar.loading')}</p>}
       {!loading && error && <p className="form-error">{error}</p>}
 
       {!loading && !error && (
         <>
-          <div className="heatmap-wrapper">
-            <div className="heatmap-months">
-              {monthLabels.map((label, index) => (
-                <span key={index} className="heatmap-month-label">
+          <div className="month-grid">
+            <div className="month-grid-header">
+              {weekdays.map((label) => (
+                <span key={label} className="month-weekday">
                   {label}
                 </span>
               ))}
             </div>
-            <div className="heatmap-grid">
-              {weeks.map((week) => (
-                <div className="heatmap-column" key={week[0].date}>
-                  {week.map((day) => (
+
+            {weeks.map((week) => (
+              <div className="month-grid-row" key={week[0].date}>
+                {week.map((day) => {
+                  const tooltip = day.count > 0
+                    ? t('calendar.dayTooltip', { count: day.count, date: formatDate(day.date) })
+                    : undefined;
+
+                  return (
                     <div
                       key={day.date}
-                      className={`heatmap-cell ${LEVEL_CLASS[day.level]} ${day.count > 0 ? 'has-data' : ''} ${
-                        day.date === selectedDate ? 'selected' : ''
-                      }`}
-                      title={cellTooltip(day)}
-                      onClick={() => handleCellClick(day)}
-                    />
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="heatmap-legend">
-            <span>{t('calendar.legendLess')}</span>
-            {LEVEL_CLASS.map((cls) => (
-              <span key={cls} className={`heatmap-cell ${cls}`} />
+                      className={[
+                        'month-day',
+                        day.isCurrentMonth ? '' : 'other-month',
+                        day.isToday ? 'today' : '',
+                        day.isCurrentMonth && day.count > 0 ? 'has-data' : '',
+                        day.date === selectedDate ? 'selected' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                      title={tooltip}
+                      onClick={() => handleDayClick(day.date, day.isCurrentMonth, day.count)}
+                    >
+                      <span className="month-day-number">{day.day}</span>
+                      {day.isCurrentMonth && day.count > 0 && (
+                        <span className="month-day-badge">{day.count}</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             ))}
-            <span>{t('calendar.legendMore')}</span>
           </div>
 
           <div className="day-details">

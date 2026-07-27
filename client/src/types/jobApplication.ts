@@ -17,3 +17,10 @@ export interface JobApplication {
   notes?: string;
   createdAt: string;
 }
+
+export interface ApplicationStats {
+  total: number;
+  byStatus: Record<Status, number>;
+  byPlatform: Record<Platform, number>;
+  conversionRate: number;
+}

@@ -1,5 +1,5 @@
 import api from './axios';
-import type { JobApplication, Platform, Status } from '../types/jobApplication';
+import type { ApplicationStats, JobApplication, Platform, Status } from '../types/jobApplication';
 
 export interface ApplicationFilters {
   platform?: Platform;
@@ -41,4 +41,9 @@ export async function updateApplicationRequest(
 
 export async function deleteApplicationRequest(id: string): Promise<void> {
   await api.delete(`/applications/${id}`);
+}
+
+export async function fetchStatsRequest(): Promise<ApplicationStats> {
+  const res = await api.get<ApplicationStats>('/applications/stats');
+  return res.data;
 }

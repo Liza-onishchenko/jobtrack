@@ -30,7 +30,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    if (!title.trim() || !company.trim() || !appliedDate) {
+    if (!title.trim() || !appliedDate) {
       setError(t('applications.form.errors.required'));
       return;
     }
@@ -41,7 +41,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
       await onSubmit({
         platform,
         title: title.trim(),
-        company: company.trim(),
+        company: company.trim() || undefined,
         appliedDate,
         budget: budget ? Number(budget) : undefined,
         status,

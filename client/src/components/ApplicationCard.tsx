@@ -16,7 +16,7 @@ export default function ApplicationCard({ application, onStatusChange, onDelete 
   function handleDelete() {
     const confirmMessage = t('applications.deleteConfirm', {
       title: application.title,
-      company: application.company,
+      company: application.company || '—',
     });
     if (window.confirm(confirmMessage)) {
       onDelete(application._id);
@@ -41,7 +41,7 @@ export default function ApplicationCard({ application, onStatusChange, onDelete 
       </div>
 
       <h3 className="application-title">{application.title}</h3>
-      <p className="application-company">{application.company}</p>
+      {application.company && <p className="application-company">{application.company}</p>}
 
       <div className="application-meta">
         <span>{appliedDate}</span>

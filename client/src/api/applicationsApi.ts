@@ -9,7 +9,7 @@ export interface ApplicationFilters {
 export interface ApplicationInput {
   platform: Platform;
   title: string;
-  company: string;
+  company?: string;
   appliedDate: string;
   budget?: number;
   status?: Status;

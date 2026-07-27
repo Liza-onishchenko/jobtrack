@@ -9,7 +9,7 @@ export interface JobApplication {
   userId: string;
   platform: Platform;
   title: string;
-  company: string;
+  company?: string;
   appliedDate: string;
   budget?: number;
   status: Status;

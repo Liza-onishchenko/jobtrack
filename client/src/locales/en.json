@@ -109,7 +109,7 @@
       "save": "Save",
       "saving": "Saving...",
       "errors": {
-        "required": "Title, company and applied date are required",
+        "required": "Title and applied date are required",
         "failed": "Failed to save application. Please try again."
       }
     }

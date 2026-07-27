@@ -10,7 +10,7 @@ export interface IJobApplication extends Document {
   userId: Types.ObjectId;
   platform: Platform;
   title: string;
-  company: string;
+  company?: string;
   appliedDate: Date;
   budget?: number;
   status: Status;
@@ -38,7 +38,6 @@ const jobApplicationSchema = new Schema<IJobApplication>({
   },
   company: {
     type: String,
-    required: true,
     trim: true,
   },
   appliedDate: {

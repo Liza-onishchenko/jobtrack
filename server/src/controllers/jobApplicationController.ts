@@ -26,8 +26,8 @@ export async function createApplication(req: AuthRequest, res: Response): Promis
   try {
     const { platform, title, company, appliedDate, budget, status, link, notes } = req.body;
 
-    if (!platform || !title || !company || !appliedDate) {
-      res.status(400).json({ message: 'platform, title, company and appliedDate are required' });
+    if (!platform || !title || !appliedDate) {
+      res.status(400).json({ message: 'platform, title and appliedDate are required' });
       return;
     }
 

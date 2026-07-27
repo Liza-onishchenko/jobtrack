@@ -159,7 +159,8 @@ export default function Calendar() {
                       <div>
                         <span className="day-details-title">{application.title}</span>
                         <span className="day-details-meta">
-                          {application.company} · {application.platform}
+                          {application.company ? `${application.company} · ` : ''}
+                          {application.platform}
                         </span>
                       </div>
                       <StatusBadge status={application.status} />

@@ -1,8 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { logout } from '../features/auth/authSlice';
 import { LANGUAGE_STORAGE_KEY } from '../i18n';
+import logo from '../image/logo.png';
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
@@ -23,14 +24,20 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-brand">
-        {t('navbar.brand')}
+        <img src={logo} alt={t('navbar.brand')} className="navbar-logo" />
       </Link>
       <div className="navbar-links">
         {isAuthenticated ? (
           <>
-            <Link to="/dashboard">{t('navbar.dashboard')}</Link>
-            <Link to="/applications">{t('navbar.applications')}</Link>
-            <Link to="/calendar">{t('navbar.calendar')}</Link>
+            <NavLink to="/dashboard" className={({ isActive }) => (isActive ? 'active' : '')}>
+              {t('navbar.dashboard')}
+            </NavLink>
+            <NavLink to="/applications" className={({ isActive }) => (isActive ? 'active' : '')}>
+              {t('navbar.applications')}
+            </NavLink>
+            <NavLink to="/calendar" className={({ isActive }) => (isActive ? 'active' : '')}>
+              {t('navbar.calendar')}
+            </NavLink>
             <span className="navbar-user">{user?.name}</span>
             <button type="button" onClick={handleLogout}>
               {t('navbar.logout')}
@@ -38,8 +45,12 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link to="/login">{t('navbar.login')}</Link>
-            <Link to="/register">{t('navbar.signup')}</Link>
+            <NavLink to="/login" className={({ isActive }) => (isActive ? 'active' : '')}>
+              {t('navbar.login')}
+            </NavLink>
+            <NavLink to="/register" className={({ isActive }) => (isActive ? 'active' : '')}>
+              {t('navbar.signup')}
+            </NavLink>
           </>
         )}
         <div className="lang-switcher">

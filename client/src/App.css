@@ -7,10 +7,17 @@
 }
 
 .navbar-brand {
+  display: inline-flex;
+  align-items: center;
   font-weight: 600;
   font-size: 20px;
   color: var(--text-h);
   text-decoration: none;
+}
+
+.navbar-logo {
+  height: 35px;
+  width: auto;
 }
 
 .navbar-links {
@@ -20,6 +27,7 @@
 }
 
 .navbar-links a {
+  position: relative;
   color: var(--text);
   text-decoration: none;
 }
@@ -28,9 +36,32 @@
   color: var(--text-h);
 }
 
-.navbar-user {
+.navbar-links a.active {
   color: var(--text-h);
-  font-weight: 500;
+  font-weight: 600;
+}
+
+.navbar-links a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.navbar-user {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  font-family: var(--heading);
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .navbar-links button {
@@ -82,7 +113,7 @@
 .auth-page {
   display: flex;
   justify-content: center;
-  padding: 48px 24px;
+  padding: 30px 24px;
 }
 
 .auth-form {
@@ -153,7 +184,7 @@
 }
 
 .page {
-  padding: 48px 24px;
+  padding: 24px;
   text-align: left;
 }
 
@@ -525,7 +556,7 @@ button.danger:hover {
   grid-template-columns: 1.1fr 1fr;
   align-items: center;
   gap: 48px;
-  padding: 80px 24px;
+  padding: 60px 24px;
   overflow: hidden;
 
   @media (max-width: 900px) {
@@ -778,7 +809,6 @@ button.danger:hover {
   max-width: 760px;
   margin: 0 auto;
   border: 1px solid var(--border);
-  border-radius: 10px;
   overflow: hidden;
 }
 

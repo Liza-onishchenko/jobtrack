@@ -6,7 +6,7 @@ Fullstack застосунок для трекінгу відгуків на ф�
 
 **Client** — React, TypeScript, Vite, React Router, Redux Toolkit, Axios, Recharts.
 
-**Server** — Node.js, Express, TypeScript, MongoDB (Mongoose), JWT-автентифікація, Nodemailer.
+**Server** — Node.js, Express, TypeScript, MongoDB (Mongoose), JWT-автентифікація, Telegram Bot API (сповіщення), node-cron (нагадування).
 
 ## Структура проєкту
 
@@ -28,7 +28,7 @@ jobtrack/
 ```bash
 cd server
 npm install
-cp .env.example .env   # заповніть значення (PORT, MONGO_URI, JWT_SECRET, EMAIL_USER, EMAIL_PASS)
+cp .env.example .env   # заповніть значення (PORT, MONGO_URI, JWT_SECRET, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
 npm run dev             # режим розробки (ts-node-dev)
 npm run build && npm start   # production-збірка
 ```
@@ -45,10 +45,10 @@ npm run dev
 
 ## Змінні середовища сервера
 
-| Змінна      | Опис                                  |
-|-------------|----------------------------------------|
-| `PORT`      | Порт, на якому запускається сервер     |
-| `MONGO_URI` | Рядок підключення до MongoDB           |
-| `JWT_SECRET`| Секрет для підпису JWT-токенів         |
-| `EMAIL_USER`| Логін поштового акаунта для nodemailer |
-| `EMAIL_PASS`| Пароль/app password для nodemailer     |
+| Змінна                | Опис                                                      |
+|-----------------------|-------------------------------------------------------------|
+| `PORT`                | Порт, на якому запускається сервер                         |
+| `MONGO_URI`           | Рядок підключення до MongoDB                               |
+| `JWT_SECRET`          | Секрет для підпису JWT-токенів                             |
+| `TELEGRAM_BOT_TOKEN`  | Токен Telegram-бота (від @BotFather) для сповіщень         |
+| `TELEGRAM_CHAT_ID`    | ID чату/користувача, куди бот надсилає сповіщення           |

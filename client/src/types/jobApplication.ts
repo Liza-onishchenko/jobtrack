@@ -16,6 +16,7 @@ export interface JobApplication {
   link?: string;
   notes?: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface ApplicationStats {

@@ -15,9 +15,10 @@ import {
 } from 'recharts';
 import type { PieLabelRenderProps, TooltipContentProps } from 'recharts';
 import { useAppSelector } from '../app/hooks';
-import { fetchStatsRequest } from '../api/applicationsApi';
+import { fetchApplicationsRequest, fetchStatsRequest } from '../api/applicationsApi';
 import { PLATFORMS, STATUSES } from '../types/jobApplication';
-import type { ApplicationStats } from '../types/jobApplication';
+import type { ApplicationStats, JobApplication } from '../types/jobApplication';
+import { isStaleApplication } from '../utils/staleness';
 
 const PLATFORM_COLORS = ['var(--series-1)', 'var(--series-2)', 'var(--series-3)', 'var(--series-4)'];
 const STATUS_COLORS = [
@@ -49,6 +50,7 @@ function renderPieLabel(props: PieLabelRenderProps): string {
 export default function Dashboard() {
   const user = useAppSelector((state) => state.auth.user);
   const [stats, setStats] = useState<ApplicationStats | null>(null);
+  const [applications, setApplications] = useState<JobApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,9 +58,12 @@ export default function Dashboard() {
     let cancelled = false;
 
     setLoading(true);
-    fetchStatsRequest()
-      .then((data) => {
-        if (!cancelled) setStats(data);
+    Promise.all([fetchStatsRequest(), fetchApplicationsRequest({})])
+      .then(([statsData, applicationsData]) => {
+        if (!cancelled) {
+          setStats(statsData);
+          setApplications(applicationsData);
+        }
       })
       .catch(() => {
         if (!cancelled) setError('Failed to load statistics');
@@ -71,6 +76,8 @@ export default function Dashboard() {
       cancelled = true;
     };
   }, []);
+
+  const staleApplications = applications.filter(isStaleApplication);
 
   const platformData = stats
     ? PLATFORMS.map((platform) => ({ name: platform, value: stats.byPlatform[platform] }))
@@ -111,6 +118,22 @@ export default function Dashboard() {
               <span className="stat-value">{stats.conversionRate}%</span>
             </div>
           </div>
+
+          {staleApplications.length > 0 && (
+            <div className="attention-block">
+              <h2>Потребує уваги</h2>
+              <ul className="attention-list">
+                {staleApplications.map((application) => (
+                  <li key={application._id}>
+                    <span>⏰ {application.title}</span>
+                    <span className="attention-meta">
+                      {application.platform} · {application.status}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="charts-grid">
             <div className="chart-card">

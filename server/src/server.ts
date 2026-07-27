@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
 import jobApplicationRoutes from './routes/jobApplicationRoutes';
 import contactRoutes from './routes/contactRoutes';
+import { scheduleStaleApplicationsJob } from './jobs/staleApplicationsJob';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ async function start() {
     if (MONGO_URI) {
       await mongoose.connect(MONGO_URI);
       console.log('Connected to MongoDB');
+      scheduleStaleApplicationsJob();
     } else {
       console.warn('MONGO_URI is not set, skipping database connection');
     }

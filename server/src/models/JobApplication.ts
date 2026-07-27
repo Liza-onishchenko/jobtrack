@@ -17,6 +17,7 @@ export interface IJobApplication extends Document {
   link?: string;
   notes?: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 const jobApplicationSchema = new Schema<IJobApplication>({
@@ -60,10 +61,8 @@ const jobApplicationSchema = new Schema<IJobApplication>({
     type: String,
     trim: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+}, {
+  timestamps: true,
 });
 
 export default model<IJobApplication>('JobApplication', jobApplicationSchema);

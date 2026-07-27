@@ -1,6 +1,7 @@
 import { STATUSES } from '../types/jobApplication';
 import type { JobApplication, Status } from '../types/jobApplication';
 import StatusBadge from './StatusBadge';
+import { isStaleApplication } from '../utils/staleness';
 
 interface Props {
   application: JobApplication;
@@ -16,12 +17,20 @@ export default function ApplicationCard({ application, onStatusChange, onDelete 
   }
 
   const appliedDate = new Date(application.appliedDate).toLocaleDateString();
+  const isStale = isStaleApplication(application);
 
   return (
     <div className="application-card">
       <div className="application-card-header">
         <span className="application-platform">{application.platform}</span>
-        <StatusBadge status={application.status} />
+        <div className="application-card-header-right">
+          {isStale && (
+            <span className="stale-badge" title="No update in 3+ days">
+              ⏰
+            </span>
+          )}
+          <StatusBadge status={application.status} />
+        </div>
       </div>
 
       <h3 className="application-title">{application.title}</h3>

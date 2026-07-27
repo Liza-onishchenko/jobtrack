@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { transporter } from '../utils/mailer';
+import { sendTelegramNotification } from '../utils/telegram';
 
 const EMAIL_RE = /^\S+@\S+\.\S+$/;
 
@@ -17,13 +17,9 @@ export async function sendContactMessage(req: Request, res: Response): Promise<v
   }
 
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      replyTo: email,
-      subject: `JobTrack contact form: ${name}`,
-      text: `From: ${name} <${email}>\n\n${message}`,
-    });
+    await sendTelegramNotification(
+      `📩 Нове повідомлення з лендінгу\nВід: ${name} (${email})\n${message}`,
+    );
 
     res.json({ message: 'Message sent successfully' });
   } catch (error) {

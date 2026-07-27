@@ -2,6 +2,7 @@
   --text: #a1a1aa;
   --text-h: #f4f4f5;
   --bg: #0f1117;
+  --bg-card: #1a1d29;
   --border: #23252f;
   --code-bg: #171922;
   --accent: #8b5cf6;
@@ -14,7 +15,7 @@
     rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   --dot-color: rgba(244, 244, 245, 0.06);
 
-  /* Categorical chart palette — validated with dataviz skill's validate_palette.js against #0F1117 */
+  /* Categorical chart palette — validated with dataviz skill's validate_palette.js against #0F1117 and #1A1D29 */
   --series-1: #3987e5;
   --series-2: #008300;
   --series-3: #d55181;
@@ -28,7 +29,7 @@
   --status-rejected: var(--series-3);
   --status-accepted: var(--series-2);
 
-  /* Purple ordinal ramp for the activity heatmap — validated with --ordinal against #0F1117 */
+  /* Purple ordinal ramp for the activity heatmap — validated with --ordinal against #0F1117 and #1A1D29 */
   --heat-0: transparent;
   --heat-1: #6d28d9;
   --heat-2: #8b5cf6;

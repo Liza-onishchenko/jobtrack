@@ -35,11 +35,7 @@ export default function Landing() {
           </div>
         </div>
         <div className="hero-visual">
-          <img
-            src="/dashboard-preview.png"
-            alt="JobTrack dashboard preview"
-            className="dashboard-mockup"
-          />
+          <img src="/dashboard.png" alt="JobTrack dashboard preview" className="dashboard-mockup" />
         </div>
       </section>
 

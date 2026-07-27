@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
 import jobApplicationRoutes from './routes/jobApplicationRoutes';
+import contactRoutes from './routes/contactRoutes';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/applications', jobApplicationRoutes);
+app.use('/api/contact', contactRoutes);
 
 async function start() {
   try {

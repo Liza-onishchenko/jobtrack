@@ -1,0 +1,136 @@
+{
+  "navbar": {
+    "brand": "JobTrack",
+    "dashboard": "Dashboard",
+    "applications": "Applications",
+    "logout": "Log out",
+    "login": "Log in",
+    "signup": "Sign up"
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Log in",
+      "submitting": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up",
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Enter a valid email",
+        "passwordRequired": "Password is required",
+        "failed": "Login failed. Please try again."
+      }
+    },
+    "register": {
+      "title": "Sign up",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm password",
+      "submit": "Sign up",
+      "submitting": "Creating account...",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "errors": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Enter a valid email",
+        "passwordLength": "Password must be at least 6 characters",
+        "passwordMismatch": "Passwords do not match",
+        "failed": "Registration failed. Please try again."
+      }
+    }
+  },
+  "landing": {
+    "heroTitle": "Track your freelance job applications in one place",
+    "heroDescription": "JobTrack helps freelancers keep every application organized — from the first message sent to the final offer — so nothing falls through the cracks.",
+    "goToDashboard": "Go to Dashboard",
+    "login": "Log in",
+    "signup": "Sign up",
+    "features": {
+      "track": {
+        "title": "Track applications",
+        "description": "Log every freelance job you apply to in one place — platform, status, budget, and notes."
+      },
+      "stats": {
+        "title": "See your statistics",
+        "description": "A dashboard with conversion rate, status breakdown, and platform distribution at a glance."
+      },
+      "filter": {
+        "title": "Filter and search",
+        "description": "Filter your applications by platform or status to find exactly what you need."
+      }
+    },
+    "contactHeading": "Get in touch",
+    "contactSubheading": "Questions, feedback, or feature requests — send a message.",
+    "telegramButton": "Message me on Telegram"
+  },
+  "contact": {
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "submit": "Send message",
+    "submitting": "Sending...",
+    "success": "Thanks! Your message has been sent.",
+    "errors": {
+      "nameRequired": "Name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email",
+      "messageRequired": "Message is required",
+      "failed": "Failed to send message. Please try again."
+    }
+  },
+  "applications": {
+    "title": "Applications",
+    "addButton": "+ Add application",
+    "platformLabel": "Platform",
+    "statusLabel": "Status",
+    "all": "All",
+    "loading": "Loading...",
+    "empty": "No applications yet.",
+    "viewListing": "View listing",
+    "delete": "Delete",
+    "deleteConfirm": "Delete \"{{title}}\" at {{company}}? This cannot be undone.",
+    "staleTooltip": "No update in 3+ days",
+    "form": {
+      "title": "Add application",
+      "platformLabel": "Platform",
+      "titleLabel": "Title",
+      "companyLabel": "Company",
+      "appliedDateLabel": "Applied date",
+      "budgetLabel": "Budget ($)",
+      "statusLabel": "Status",
+      "linkLabel": "Link",
+      "notesLabel": "Notes",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving...",
+      "errors": {
+        "required": "Title, company and applied date are required",
+        "failed": "Failed to save application. Please try again."
+      }
+    }
+  },
+  "status": {
+    "Sent": "Sent",
+    "Viewed": "Viewed",
+    "Interview": "Interview",
+    "Rejected": "Rejected",
+    "Accepted": "Accepted"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "loading": "Loading...",
+    "error": "Failed to load statistics",
+    "emptyMessage": "No applications yet — add your first one!",
+    "addApplication": "Add application",
+    "totalApplications": "Total applications",
+    "inInterview": "In interview",
+    "conversionRate": "Conversion rate",
+    "needsAttention": "Needs attention",
+    "byPlatform": "By platform",
+    "byStatus": "By status"
+  }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Bar,
   BarChart,
@@ -48,6 +49,7 @@ function renderPieLabel(props: PieLabelRenderProps): string {
 }
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const user = useAppSelector((state) => state.auth.user);
   const [stats, setStats] = useState<ApplicationStats | null>(null);
   const [applications, setApplications] = useState<JobApplication[]>([]);
@@ -66,7 +68,7 @@ export default function Dashboard() {
         }
       })
       .catch(() => {
-        if (!cancelled) setError('Failed to load statistics');
+        if (!cancelled) setError(t('dashboard.error'));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -75,7 +77,7 @@ export default function Dashboard() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [t]);
 
   const staleApplications = applications.filter(isStaleApplication);
 
@@ -83,21 +85,24 @@ export default function Dashboard() {
     ? PLATFORMS.map((platform) => ({ name: platform, value: stats.byPlatform[platform] }))
     : [];
   const statusData = stats
-    ? STATUSES.map((status) => ({ name: status, value: stats.byStatus[status] }))
+    ? STATUSES.map((status) => ({ name: t(`status.${status}`), value: stats.byStatus[status] }))
     : [];
 
   return (
     <div className="page">
-      <h1>Welcome back{user ? `, ${user.name}` : ''}</h1>
+      <h1>
+        {t('dashboard.welcome')}
+        {user ? `, ${user.name}` : ''}
+      </h1>
 
-      {loading && <p>Loading...</p>}
+      {loading && <p>{t('dashboard.loading')}</p>}
       {!loading && error && <p className="form-error">{error}</p>}
 
       {!loading && !error && stats && stats.total === 0 && (
         <div className="empty-state">
-          <p>No applications yet — add your first one!</p>
+          <p>{t('dashboard.emptyMessage')}</p>
           <Link to="/applications" className="button-link">
-            Add application
+            {t('dashboard.addApplication')}
           </Link>
         </div>
       )}
@@ -106,28 +111,28 @@ export default function Dashboard() {
         <>
           <div className="stat-tiles">
             <div className="stat-tile">
-              <span className="stat-label">Total applications</span>
+              <span className="stat-label">{t('dashboard.totalApplications')}</span>
               <span className="stat-value">{stats.total}</span>
             </div>
             <div className="stat-tile">
-              <span className="stat-label">In interview</span>
+              <span className="stat-label">{t('dashboard.inInterview')}</span>
               <span className="stat-value">{stats.byStatus.Interview}</span>
             </div>
             <div className="stat-tile">
-              <span className="stat-label">Conversion rate</span>
+              <span className="stat-label">{t('dashboard.conversionRate')}</span>
               <span className="stat-value">{stats.conversionRate}%</span>
             </div>
           </div>
 
           {staleApplications.length > 0 && (
             <div className="attention-block">
-              <h2>Потребує уваги</h2>
+              <h2>{t('dashboard.needsAttention')}</h2>
               <ul className="attention-list">
                 {staleApplications.map((application) => (
                   <li key={application._id}>
                     <span>⏰ {application.title}</span>
                     <span className="attention-meta">
-                      {application.platform} · {application.status}
+                      {application.platform} · {t(`status.${application.status}`)}
                     </span>
                   </li>
                 ))}
@@ -137,7 +142,7 @@ export default function Dashboard() {
 
           <div className="charts-grid">
             <div className="chart-card">
-              <h2>By platform</h2>
+              <h2>{t('dashboard.byPlatform')}</h2>
               <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
                   <Pie
@@ -160,7 +165,7 @@ export default function Dashboard() {
             </div>
 
             <div className="chart-card">
-              <h2>By status</h2>
+              <h2>{t('dashboard.byStatus')}</h2>
               <ResponsiveContainer width="100%" height={280}>
                 <BarChart data={statusData}>
                   <CartesianGrid stroke="var(--border)" vertical={false} />

@@ -1,47 +1,32 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../app/hooks';
 import ContactForm from '../components/ContactForm';
+import TelegramIcon from '../components/TelegramIcon';
 
-const FEATURES = [
-  {
-    title: 'Track applications',
-    description:
-      'Log every freelance job you apply to in one place — platform, status, budget, and notes.',
-  },
-  {
-    title: 'See your statistics',
-    description:
-      'A dashboard with conversion rate, status breakdown, and platform distribution at a glance.',
-  },
-  {
-    title: 'Filter and search',
-    description: 'Filter your applications by platform or status to find exactly what you need.',
-  },
-];
+const FEATURE_KEYS = ['track', 'stats', 'filter'] as const;
 
 export default function Landing() {
+  const { t } = useTranslation();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   return (
     <div className="landing">
       <section className="hero">
-        <h1>Track your freelance job applications in one place</h1>
-        <p>
-          JobTrack helps freelancers keep every application organized — from the first message
-          sent to the final offer — so nothing falls through the cracks.
-        </p>
+        <h1>{t('landing.heroTitle')}</h1>
+        <p>{t('landing.heroDescription')}</p>
         <div className="hero-actions">
           {isAuthenticated ? (
             <Link to="/dashboard" className="button-link">
-              Go to Dashboard
+              {t('landing.goToDashboard')}
             </Link>
           ) : (
             <>
               <Link to="/login" className="button-link">
-                Log in
+                {t('landing.login')}
               </Link>
               <Link to="/register" className="button-link secondary">
-                Sign up
+                {t('landing.signup')}
               </Link>
             </>
           )}
@@ -49,18 +34,27 @@ export default function Landing() {
       </section>
 
       <section className="features">
-        {FEATURES.map((feature) => (
-          <div className="feature-card" key={feature.title}>
-            <h3>{feature.title}</h3>
-            <p>{feature.description}</p>
+        {FEATURE_KEYS.map((key) => (
+          <div className="feature-card" key={key}>
+            <h3>{t(`landing.features.${key}.title`)}</h3>
+            <p>{t(`landing.features.${key}.description`)}</p>
           </div>
         ))}
       </section>
 
       <section className="contact">
-        <h2>Get in touch</h2>
-        <p>Questions, feedback, or feature requests — send a message.</p>
+        <h2>{t('landing.contactHeading')}</h2>
+        <p>{t('landing.contactSubheading')}</p>
         <ContactForm />
+        <a
+          href="https://t.me/liiza1"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="telegram-button"
+        >
+          <TelegramIcon />
+          {t('landing.telegramButton')}
+        </a>
       </section>
     </div>
   );

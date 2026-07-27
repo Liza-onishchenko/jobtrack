@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
   fetchApplications,
@@ -15,6 +16,7 @@ import ApplicationCard from '../components/ApplicationCard';
 import ApplicationFormModal from '../components/ApplicationFormModal';
 
 export default function Applications() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { items, loading, error, filters } = useAppSelector((state) => state.applications);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -38,22 +40,22 @@ export default function Applications() {
   return (
     <div className="page">
       <div className="applications-header">
-        <h1>Applications</h1>
+        <h1>{t('applications.title')}</h1>
         <button type="button" onClick={() => setModalOpen(true)}>
-          + Add application
+          {t('applications.addButton')}
         </button>
       </div>
 
       <div className="filters">
         <label>
-          Platform
+          {t('applications.platformLabel')}
           <select
             value={filters.platform}
             onChange={(event) =>
               dispatch(setPlatformFilter(event.target.value as Platform | ''))
             }
           >
-            <option value="">All</option>
+            <option value="">{t('applications.all')}</option>
             {PLATFORMS.map((p) => (
               <option key={p} value={p}>
                 {p}
@@ -63,15 +65,15 @@ export default function Applications() {
         </label>
 
         <label>
-          Status
+          {t('applications.statusLabel')}
           <select
             value={filters.status}
             onChange={(event) => dispatch(setStatusFilter(event.target.value as Status | ''))}
           >
-            <option value="">All</option>
+            <option value="">{t('applications.all')}</option>
             {STATUSES.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {t(`status.${s}`)}
               </option>
             ))}
           </select>
@@ -79,8 +81,8 @@ export default function Applications() {
       </div>
 
       {error && <p className="form-error">{error}</p>}
-      {loading && <p>Loading...</p>}
-      {!loading && items.length === 0 && <p>No applications yet.</p>}
+      {loading && <p>{t('applications.loading')}</p>}
+      {!loading && items.length === 0 && <p>{t('applications.empty')}</p>}
 
       <div className="applications-grid">
         {items.map((application) => (

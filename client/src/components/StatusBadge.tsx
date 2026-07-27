@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { Status } from '../types/jobApplication';
 
 const STATUS_CLASS: Record<Status, string> = {
@@ -9,5 +10,6 @@ const STATUS_CLASS: Record<Status, string> = {
 };
 
 export default function StatusBadge({ status }: { status: Status }) {
-  return <span className={`status-badge ${STATUS_CLASS[status]}`}>{status}</span>;
+  const { t } = useTranslation();
+  return <span className={`status-badge ${STATUS_CLASS[status]}`}>{t(`status.${status}`)}</span>;
 }

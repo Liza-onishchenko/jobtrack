@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PLATFORMS, STATUSES } from '../types/jobApplication';
 import type { Platform, Status } from '../types/jobApplication';
 import type { ApplicationInput } from '../api/applicationsApi';
@@ -14,6 +15,7 @@ function todayIso(): string {
 }
 
 export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
+  const { t } = useTranslation();
   const [platform, setPlatform] = useState<Platform>(PLATFORMS[0]);
   const [title, setTitle] = useState('');
   const [company, setCompany] = useState('');
@@ -29,7 +31,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
     event.preventDefault();
 
     if (!title.trim() || !company.trim() || !appliedDate) {
-      setError('Title, company and applied date are required');
+      setError(t('applications.form.errors.required'));
       return;
     }
 
@@ -48,7 +50,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
       });
       onClose();
     } catch {
-      setError('Failed to save application. Please try again.');
+      setError(t('applications.form.errors.failed'));
     } finally {
       setSubmitting(false);
     }
@@ -57,11 +59,11 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(event) => event.stopPropagation()}>
-        <h2>Add application</h2>
+        <h2>{t('applications.form.title')}</h2>
         <form onSubmit={handleSubmit} noValidate>
           {error && <p className="form-error">{error}</p>}
 
-          <label htmlFor="platform">Platform</label>
+          <label htmlFor="platform">{t('applications.form.platformLabel')}</label>
           <select
             id="platform"
             value={platform}
@@ -74,7 +76,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
             ))}
           </select>
 
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">{t('applications.form.titleLabel')}</label>
           <input
             id="title"
             type="text"
@@ -82,7 +84,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
             onChange={(event) => setTitle(event.target.value)}
           />
 
-          <label htmlFor="company">Company</label>
+          <label htmlFor="company">{t('applications.form.companyLabel')}</label>
           <input
             id="company"
             type="text"
@@ -90,7 +92,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
             onChange={(event) => setCompany(event.target.value)}
           />
 
-          <label htmlFor="appliedDate">Applied date</label>
+          <label htmlFor="appliedDate">{t('applications.form.appliedDateLabel')}</label>
           <input
             id="appliedDate"
             type="date"
@@ -98,7 +100,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
             onChange={(event) => setAppliedDate(event.target.value)}
           />
 
-          <label htmlFor="budget">Budget ($)</label>
+          <label htmlFor="budget">{t('applications.form.budgetLabel')}</label>
           <input
             id="budget"
             type="number"
@@ -107,7 +109,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
             onChange={(event) => setBudget(event.target.value)}
           />
 
-          <label htmlFor="status">Status</label>
+          <label htmlFor="status">{t('applications.form.statusLabel')}</label>
           <select
             id="status"
             value={status}
@@ -115,12 +117,12 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
           >
             {STATUSES.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {t(`status.${s}`)}
               </option>
             ))}
           </select>
 
-          <label htmlFor="link">Link</label>
+          <label htmlFor="link">{t('applications.form.linkLabel')}</label>
           <input
             id="link"
             type="url"
@@ -129,7 +131,7 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
             onChange={(event) => setLink(event.target.value)}
           />
 
-          <label htmlFor="notes">Notes</label>
+          <label htmlFor="notes">{t('applications.form.notesLabel')}</label>
           <textarea
             id="notes"
             rows={3}
@@ -139,10 +141,10 @@ export default function ApplicationFormModal({ onClose, onSubmit }: Props) {
 
           <div className="modal-actions">
             <button type="button" onClick={onClose} disabled={submitting}>
-              Cancel
+              {t('applications.form.cancel')}
             </button>
             <button type="submit" disabled={submitting}>
-              {submitting ? 'Saving...' : 'Save'}
+              {submitting ? t('applications.form.saving') : t('applications.form.save')}
             </button>
           </div>
         </form>

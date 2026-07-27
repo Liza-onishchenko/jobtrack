@@ -1,0 +1,136 @@
+{
+  "navbar": {
+    "brand": "JobTrack",
+    "dashboard": "Дашборд",
+    "applications": "Заявки",
+    "logout": "Вийти",
+    "login": "Увійти",
+    "signup": "Реєстрація"
+  },
+  "auth": {
+    "login": {
+      "title": "Увійти",
+      "emailLabel": "Email",
+      "passwordLabel": "Пароль",
+      "submit": "Увійти",
+      "submitting": "Вхід...",
+      "noAccount": "Немає акаунта?",
+      "signupLink": "Зареєструватися",
+      "errors": {
+        "emailRequired": "Email обов'язковий",
+        "emailInvalid": "Введіть коректний email",
+        "passwordRequired": "Пароль обов'язковий",
+        "failed": "Помилка входу. Спробуйте ще раз."
+      }
+    },
+    "register": {
+      "title": "Реєстрація",
+      "nameLabel": "Ім'я",
+      "emailLabel": "Email",
+      "passwordLabel": "Пароль",
+      "confirmPasswordLabel": "Підтвердіть пароль",
+      "submit": "Зареєструватися",
+      "submitting": "Створення акаунта...",
+      "haveAccount": "Вже є акаунт?",
+      "loginLink": "Увійти",
+      "errors": {
+        "nameRequired": "Ім'я обов'язкове",
+        "emailRequired": "Email обов'язковий",
+        "emailInvalid": "Введіть коректний email",
+        "passwordLength": "Пароль має містити щонайменше 6 символів",
+        "passwordMismatch": "Паролі не збігаються",
+        "failed": "Помилка реєстрації. Спробуйте ще раз."
+      }
+    }
+  },
+  "landing": {
+    "heroTitle": "Відстежуйте свої відгуки на фріланс-вакансії в одному місці",
+    "heroDescription": "JobTrack допомагає фрилансерам тримати кожну заявку організованою — від першого повідомлення до фінальної пропозиції — щоб нічого не загубилося.",
+    "goToDashboard": "Перейти до дашборду",
+    "login": "Увійти",
+    "signup": "Реєстрація",
+    "features": {
+      "track": {
+        "title": "Трекінг заявок",
+        "description": "Записуйте кожну фріланс-вакансію, на яку відгукнулися, в одному місці — платформа, статус, бюджет і нотатки."
+      },
+      "stats": {
+        "title": "Ваша статистика",
+        "description": "Дашборд з конверсією, розподілом по статусах і платформах — все на одному екрані."
+      },
+      "filter": {
+        "title": "Фільтри та пошук",
+        "description": "Фільтруйте заявки за платформою або статусом, щоб швидко знайти потрібне."
+      }
+    },
+    "contactHeading": "Зв'яжіться зі мною",
+    "contactSubheading": "Питання, відгуки чи пропозиції — надішліть повідомлення.",
+    "telegramButton": "Написати в Telegram"
+  },
+  "contact": {
+    "nameLabel": "Ім'я",
+    "emailLabel": "Email",
+    "messageLabel": "Повідомлення",
+    "submit": "Надіслати",
+    "submitting": "Надсилання...",
+    "success": "Дякуємо! Ваше повідомлення надіслано.",
+    "errors": {
+      "nameRequired": "Ім'я обов'язкове",
+      "emailRequired": "Email обов'язковий",
+      "emailInvalid": "Введіть коректний email",
+      "messageRequired": "Повідомлення обов'язкове",
+      "failed": "Не вдалося надіслати повідомлення. Спробуйте ще раз."
+    }
+  },
+  "applications": {
+    "title": "Заявки",
+    "addButton": "+ Додати заявку",
+    "platformLabel": "Платформа",
+    "statusLabel": "Статус",
+    "all": "Усі",
+    "loading": "Завантаження...",
+    "empty": "Заявок ще немає.",
+    "viewListing": "Переглянути вакансію",
+    "delete": "Видалити",
+    "deleteConfirm": "Видалити \"{{title}}\" ({{company}})? Цю дію не можна скасувати.",
+    "staleTooltip": "Без оновлень понад 3 дні",
+    "form": {
+      "title": "Додати заявку",
+      "platformLabel": "Платформа",
+      "titleLabel": "Назва",
+      "companyLabel": "Компанія",
+      "appliedDateLabel": "Дата відгуку",
+      "budgetLabel": "Бюджет ($)",
+      "statusLabel": "Статус",
+      "linkLabel": "Посилання",
+      "notesLabel": "Нотатки",
+      "cancel": "Скасувати",
+      "save": "Зберегти",
+      "saving": "Збереження...",
+      "errors": {
+        "required": "Назва, компанія та дата відгуку обов'язкові",
+        "failed": "Не вдалося зберегти заявку. Спробуйте ще раз."
+      }
+    }
+  },
+  "status": {
+    "Sent": "Відправлено",
+    "Viewed": "Переглянуто",
+    "Interview": "Співбесіда",
+    "Rejected": "Відмова",
+    "Accepted": "Прийнято"
+  },
+  "dashboard": {
+    "welcome": "Раді бачити знову",
+    "loading": "Завантаження...",
+    "error": "Не вдалося завантажити статистику",
+    "emptyMessage": "Заявок ще немає — додайте першу!",
+    "addApplication": "Додати заявку",
+    "totalApplications": "Всього заявок",
+    "inInterview": "На співбесіді",
+    "conversionRate": "Конверсія",
+    "needsAttention": "Потребує уваги",
+    "byPlatform": "По платформах",
+    "byStatus": "По статусах"
+  }
+}

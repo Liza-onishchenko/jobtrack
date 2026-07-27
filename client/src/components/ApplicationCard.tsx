@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { STATUSES } from '../types/jobApplication';
 import type { JobApplication, Status } from '../types/jobApplication';
 import StatusBadge from './StatusBadge';
@@ -10,8 +11,14 @@ interface Props {
 }
 
 export default function ApplicationCard({ application, onStatusChange, onDelete }: Props) {
+  const { t } = useTranslation();
+
   function handleDelete() {
-    if (window.confirm(`Delete "${application.title}" at ${application.company}? This cannot be undone.`)) {
+    const confirmMessage = t('applications.deleteConfirm', {
+      title: application.title,
+      company: application.company,
+    });
+    if (window.confirm(confirmMessage)) {
       onDelete(application._id);
     }
   }
@@ -25,7 +32,7 @@ export default function ApplicationCard({ application, onStatusChange, onDelete 
         <span className="application-platform">{application.platform}</span>
         <div className="application-card-header-right">
           {isStale && (
-            <span className="stale-badge" title="No update in 3+ days">
+            <span className="stale-badge" title={t('applications.staleTooltip')}>
               ⏰
             </span>
           )}
@@ -48,7 +55,7 @@ export default function ApplicationCard({ application, onStatusChange, onDelete 
           rel="noreferrer"
           className="application-link"
         >
-          View listing
+          {t('applications.viewListing')}
         </a>
       )}
 
@@ -61,12 +68,12 @@ export default function ApplicationCard({ application, onStatusChange, onDelete 
         >
           {STATUSES.map((status) => (
             <option key={status} value={status}>
-              {status}
+              {t(`status.${status}`)}
             </option>
           ))}
         </select>
         <button type="button" className="danger" onClick={handleDelete}>
-          Delete
+          {t('applications.delete')}
         </button>
       </div>
     </div>

@@ -1,26 +1,30 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { isAxiosError } from 'axios';
 import { useAppDispatch } from '../app/hooks';
 import { setCredentials } from '../features/auth/authSlice';
 import { registerRequest } from '../api/authApi';
 
 function validate(
+  t: TFunction,
   name: string,
   email: string,
   password: string,
   confirmPassword: string,
 ): string | null {
-  if (!name.trim()) return 'Name is required';
-  if (!email.trim()) return 'Email is required';
-  if (!/^\S+@\S+\.\S+$/.test(email)) return 'Enter a valid email';
-  if (password.length < 6) return 'Password must be at least 6 characters';
-  if (password !== confirmPassword) return 'Passwords do not match';
+  if (!name.trim()) return t('auth.register.errors.nameRequired');
+  if (!email.trim()) return t('auth.register.errors.emailRequired');
+  if (!/^\S+@\S+\.\S+$/.test(email)) return t('auth.register.errors.emailInvalid');
+  if (password.length < 6) return t('auth.register.errors.passwordLength');
+  if (password !== confirmPassword) return t('auth.register.errors.passwordMismatch');
   return null;
 }
 
 export default function Register() {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,7 +37,7 @@ export default function Register() {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    const validationError = validate(name, email, password, confirmPassword);
+    const validationError = validate(t, name, email, password, confirmPassword);
     if (validationError) {
       setError(validationError);
       return;
@@ -49,7 +53,7 @@ export default function Register() {
       const message = isAxiosError<{ message?: string }>(err)
         ? err.response?.data?.message
         : undefined;
-      setError(message ?? 'Registration failed. Please try again.');
+      setError(message ?? t('auth.register.errors.failed'));
     } finally {
       setSubmitting(false);
     }
@@ -58,10 +62,10 @@ export default function Register() {
   return (
     <div className="auth-page">
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
-        <h1>Sign up</h1>
+        <h1>{t('auth.register.title')}</h1>
         {error && <p className="form-error">{error}</p>}
 
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">{t('auth.register.nameLabel')}</label>
         <input
           id="name"
           type="text"
@@ -70,7 +74,7 @@ export default function Register() {
           onChange={(event) => setName(event.target.value)}
         />
 
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">{t('auth.register.emailLabel')}</label>
         <input
           id="email"
           type="email"
@@ -79,7 +83,7 @@ export default function Register() {
           onChange={(event) => setEmail(event.target.value)}
         />
 
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">{t('auth.register.passwordLabel')}</label>
         <input
           id="password"
           type="password"
@@ -88,7 +92,7 @@ export default function Register() {
           onChange={(event) => setPassword(event.target.value)}
         />
 
-        <label htmlFor="confirmPassword">Confirm password</label>
+        <label htmlFor="confirmPassword">{t('auth.register.confirmPasswordLabel')}</label>
         <input
           id="confirmPassword"
           type="password"
@@ -98,11 +102,11 @@ export default function Register() {
         />
 
         <button type="submit" disabled={submitting}>
-          {submitting ? 'Creating account...' : 'Sign up'}
+          {submitting ? t('auth.register.submitting') : t('auth.register.submit')}
         </button>
 
         <p>
-          Already have an account? <Link to="/login">Log in</Link>
+          {t('auth.register.haveAccount')} <Link to="/login">{t('auth.register.loginLink')}</Link>
         </p>
       </form>
     </div>

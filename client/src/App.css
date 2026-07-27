@@ -749,17 +749,22 @@ button.danger:hover {
 }
 
 .calendar-nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font: inherit;
-  padding: 8px 14px;
-  border: 1px solid var(--border);
+  font-size: 14px;
+  padding: 6px 10px;
+  border: none;
   border-radius: 6px;
   background: none;
-  color: var(--text-h);
+  color: var(--text);
   cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
 }
 
 .calendar-nav button:hover {
-  border-color: var(--accent-border);
+  background: var(--accent-bg);
   color: var(--accent);
 }
 

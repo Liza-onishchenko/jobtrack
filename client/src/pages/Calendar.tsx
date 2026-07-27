@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { fetchApplicationsRequest, fetchCalendarRequest } from '../api/applicationsApi';
 import type { JobApplication } from '../types/jobApplication';
 import { buildMonthGrid, dateToKey } from '../utils/calendarGrid';
@@ -91,11 +92,13 @@ export default function Calendar() {
 
       <div className="calendar-nav">
         <button type="button" onClick={goToPrevMonth} aria-label={t('calendar.prevMonth')}>
-          ◀ {t('calendar.prevMonth')}
+          <ChevronLeft size={18} />
+          {t('calendar.prevMonth')}
         </button>
         <span className="calendar-month-label">{monthLabel}</span>
         <button type="button" onClick={goToNextMonth} aria-label={t('calendar.nextMonth')}>
-          {t('calendar.nextMonth')} ▶
+          {t('calendar.nextMonth')}
+          <ChevronRight size={18} />
         </button>
       </div>
 

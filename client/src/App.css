@@ -23,6 +23,18 @@
   width: auto;
 }
 
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-guest-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .navbar-toggle {
   display: none;
   position: relative;
@@ -53,7 +65,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 1;
+    z-index: 100;
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
@@ -87,22 +99,26 @@
   }
 }
 
-.navbar-links a {
+.navbar-links a,
+.navbar-guest-links a {
   position: relative;
   color: var(--text);
   text-decoration: none;
 }
 
-.navbar-links a:hover {
+.navbar-links a:hover,
+.navbar-guest-links a:hover {
   color: var(--text-h);
 }
 
-.navbar-links a.active {
+.navbar-links a.active,
+.navbar-guest-links a.active {
   color: var(--text-h);
   font-weight: 600;
 }
 
-.navbar-links a.active::after {
+.navbar-links a.active::after,
+.navbar-guest-links a.active::after {
   content: '';
   position: absolute;
   left: 0;
@@ -683,6 +699,7 @@ button.danger:hover {
 
 .hero {
   position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   align-items: center;
@@ -743,6 +760,8 @@ button.danger:hover {
 }
 
 .dashboard-mockup {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 560px;
   aspect-ratio: 1378 / 767;
@@ -752,6 +771,12 @@ button.danger:hover {
   box-shadow: 0 30px 80px -20px rgba(139, 92, 246, 0.45);
   background: linear-gradient(135deg, var(--accent-bg), var(--accent-2-bg));
   transform: perspective(1000px) rotateY(-8deg) rotateX(3deg) rotate(-1deg);
+}
+
+@media (max-width: 767px) {
+  .dashboard-mockup {
+    transform: none;
+  }
 }
 
 .features {

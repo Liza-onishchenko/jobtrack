@@ -91,10 +91,10 @@ export default function Navbar() {
                 >
                   {t('navbar.calendar')}
                 </NavLink>
-                {langSwitcher}
                 <button type="button" onClick={handleLogout}>
                   {t('navbar.logout')}
                 </button>
+                {langSwitcher}
               </div>
             </>
           ) : (

@@ -7,7 +7,9 @@
     "profile": "Профіль",
     "logout": "Вийти",
     "login": "Увійти",
-    "signup": "Реєстрація"
+    "signup": "Реєстрація",
+    "openMenu": "Відкрити меню",
+    "closeMenu": "Закрити меню"
   },
   "auth": {
     "login": {

@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Menu, X } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { logout } from '../features/auth/authSlice';
 import { LANGUAGE_STORAGE_KEY } from '../i18n';
@@ -10,8 +12,10 @@ export default function Navbar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   function handleLogout() {
+    setMenuOpen(false);
     dispatch(logout());
     navigate('/login');
   }
@@ -23,24 +27,46 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar-brand">
+      <Link to="/" className="navbar-brand" onClick={() => setMenuOpen(false)}>
         <img src={logo} alt={t('navbar.brand')} className="navbar-logo" />
       </Link>
-      <div className="navbar-links">
+      <button
+        type="button"
+        className="navbar-toggle"
+        aria-label={isMenuOpen ? t('navbar.closeMenu') : t('navbar.openMenu')}
+        aria-expanded={isMenuOpen}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+      </button>
+      <div className={`navbar-links${isMenuOpen ? ' open' : ''}`}>
         {isAuthenticated ? (
           <>
-            <NavLink to="/dashboard" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) => (isActive ? 'active' : '')}
+              onClick={() => setMenuOpen(false)}
+            >
               {t('navbar.dashboard')}
             </NavLink>
-            <NavLink to="/applications" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink
+              to="/applications"
+              className={({ isActive }) => (isActive ? 'active' : '')}
+              onClick={() => setMenuOpen(false)}
+            >
               {t('navbar.applications')}
             </NavLink>
-            <NavLink to="/calendar" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink
+              to="/calendar"
+              className={({ isActive }) => (isActive ? 'active' : '')}
+              onClick={() => setMenuOpen(false)}
+            >
               {t('navbar.calendar')}
             </NavLink>
             <NavLink
               to="/profile"
               className={({ isActive }) => `navbar-user${isActive ? ' active' : ''}`}
+              onClick={() => setMenuOpen(false)}
             >
               {user?.name}
             </NavLink>
@@ -50,10 +76,18 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <NavLink to="/login" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink
+              to="/login"
+              className={({ isActive }) => (isActive ? 'active' : '')}
+              onClick={() => setMenuOpen(false)}
+            >
               {t('navbar.login')}
             </NavLink>
-            <NavLink to="/register" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink
+              to="/register"
+              className={({ isActive }) => (isActive ? 'active' : '')}
+              onClick={() => setMenuOpen(false)}
+            >
               {t('navbar.signup')}
             </NavLink>
           </>

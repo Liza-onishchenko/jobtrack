@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Menu, X } from 'lucide-react';
@@ -7,12 +7,35 @@ import { logout } from '../features/auth/authSlice';
 import { LANGUAGE_STORAGE_KEY } from '../i18n';
 import logo from '../image/logo.png';
 
+const RESIZE_CLOSE_DEBOUNCE_MS = 150;
+
 export default function Navbar() {
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
   const [isMenuOpen, setMenuOpen] = useState(false);
+
+  // The mobile panel's own visibility is CSS-only (media queries), but this
+  // open/closed toggle is React state. If the viewport is resized past the
+  // breakpoint where the toggle disappears and back again, a stale "open"
+  // state would make the panel snap open with no click. Closing on resize
+  // keeps this state from ever surviving a breakpoint round-trip.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    let timeoutId: number;
+    function handleResize() {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => setMenuOpen(false), RESIZE_CLOSE_DEBOUNCE_MS);
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isMenuOpen]);
 
   function handleLogout() {
     setMenuOpen(false);

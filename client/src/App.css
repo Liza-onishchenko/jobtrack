@@ -45,7 +45,7 @@
 .navbar-toggle {
   display: none;
   position: relative;
-  z-index: 2;
+  z-index: 101;
   align-items: center;
   justify-content: center;
   background: none;
@@ -74,44 +74,48 @@
   }
 
   .navbar-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    display: flex;
+    position: fixed;
+    top: 0;
     right: 0;
+    height: 100vh;
+    width: 50%;
     z-index: 100;
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
-    padding: 16px 24px 24px;
+    padding: 88px 24px 24px;
     background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
     box-shadow: var(--shadow);
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
   }
 
   .navbar-links.open {
-    display: flex;
+    transform: translateX(0);
   }
 
-  .navbar-links a,
+  .navbar-links a {
+    width: 100%;
+    text-align: left;
+    padding-left: 12px;
+    border-left: 3px solid transparent;
+  }
+
   .navbar-links button {
     width: 100%;
     text-align: left;
   }
 
-  .navbar-links-secondary {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+  .navbar-links > .lang-switcher {
+    align-self: flex-start;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
     padding-top: 12px;
     border-top: 1px solid var(--border);
-  }
-
-  .navbar-links a.navbar-user {
-    width: auto;
-    justify-content: center;
-    text-align: center;
   }
 
   .navbar-links .lang-switcher button {
@@ -125,6 +129,13 @@
   }
 }
 
+@media (max-width: 380px) {
+  .navbar-links,
+  .navbar-lang-menu {
+    width: 75%;
+  }
+}
+
 /* The guest toggle only appears once the inline language switcher no longer fits, below 450px. */
 @media (min-width: 450px) {
   .navbar-toggle-guest {
@@ -134,20 +145,26 @@
 
 @media (max-width: 449px) {
   .navbar-lang-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    display: flex;
+    position: fixed;
+    top: 0;
     right: 0;
+    height: 100vh;
+    width: 50%;
     z-index: 100;
-    padding: 16px 24px 24px;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 88px 24px 24px;
     background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
     box-shadow: var(--shadow);
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
   }
 
   .navbar-lang-menu.open {
-    display: flex;
+    transform: translateX(0);
   }
 
   .navbar-lang-menu .lang-switcher {
@@ -186,7 +203,18 @@
   background: var(--accent);
 }
 
-.navbar-links a.navbar-user {
+@media (max-width: 767px) {
+  .navbar-links a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  .navbar-links a.active::after {
+    display: none;
+  }
+}
+
+.navbar-user {
   display: inline-flex;
   align-items: center;
   padding: 4px 12px;
@@ -197,13 +225,21 @@
   font-family: var(--heading);
   font-weight: 600;
   font-size: 14px;
+  white-space: nowrap;
+  text-decoration: none;
   transition: background-color 0.15s, border-color 0.15s;
 }
 
-.navbar-links a.navbar-user:hover {
+.navbar-user:hover {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+@media (min-width: 768px) {
+  .navbar-user {
+    order: 2;
+  }
 }
 
 .navbar-links button {

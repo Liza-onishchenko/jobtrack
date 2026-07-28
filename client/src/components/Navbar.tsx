@@ -53,6 +53,13 @@ export default function Navbar() {
         <div className="navbar-right">
           {isAuthenticated ? (
             <>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) => `navbar-user${isActive ? ' active' : ''}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {user?.name}
+              </NavLink>
               <button
                 type="button"
                 className="navbar-toggle"
@@ -84,16 +91,7 @@ export default function Navbar() {
                 >
                   {t('navbar.calendar')}
                 </NavLink>
-                <div className="navbar-links-secondary">
-                  <NavLink
-                    to="/profile"
-                    className={({ isActive }) => `navbar-user${isActive ? ' active' : ''}`}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {user?.name}
-                  </NavLink>
-                  {langSwitcher}
-                </div>
+                {langSwitcher}
                 <button type="button" onClick={handleLogout}>
                   {t('navbar.logout')}
                 </button>

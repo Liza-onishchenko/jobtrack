@@ -669,51 +669,6 @@ button.danger:hover {
   margin-bottom: 24px;
 }
 
-.contact-form {
-  max-width: 480px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.contact-form label {
-  font-size: 14px;
-  color: var(--text-h);
-  margin-bottom: 6px;
-}
-
-.contact-form input,
-.contact-form textarea {
-  font: inherit;
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg);
-  color: var(--text-h);
-  box-sizing: border-box;
-}
-
-.contact-form textarea {
-  resize: vertical;
-}
-
-.contact-form button {
-  font: inherit;
-  padding: 10px 12px;
-  border: none;
-  border-radius: 6px;
-  background: var(--accent);
-  color: #fff;
-  cursor: pointer;
-}
-
-.contact-form button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
 .telegram-button {
   display: inline-flex;
   align-items: center;

@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
 import jobApplicationRoutes from './routes/jobApplicationRoutes';
-import contactRoutes from './routes/contactRoutes';
 import { scheduleStaleApplicationsJob } from './jobs/staleApplicationsJob';
 import { GENERIC_ERROR_MESSAGE } from './utils/errorResponse';
 
@@ -24,7 +23,6 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/applications', jobApplicationRoutes);
-app.use('/api/contact', contactRoutes);
 
 // Centralized error handler — must be registered last, after all routes/middleware.
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

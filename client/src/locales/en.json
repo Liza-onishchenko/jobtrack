@@ -70,21 +70,6 @@
     "contactSubheading": "Questions, feedback, or feature requests — send a message.",
     "telegramButton": "Message me on Telegram"
   },
-  "contact": {
-    "nameLabel": "Name",
-    "emailLabel": "Email",
-    "messageLabel": "Message",
-    "submit": "Send message",
-    "submitting": "Sending...",
-    "success": "Thanks! Your message has been sent.",
-    "errors": {
-      "nameRequired": "Name is required",
-      "emailRequired": "Email is required",
-      "emailInvalid": "Enter a valid email",
-      "messageRequired": "Message is required",
-      "failed": "Failed to send message. Please try again."
-    }
-  },
   "applications": {
     "title": "Applications",
     "addButton": "+ Add application",

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../app/hooks';
-import ContactForm from '../components/ContactForm';
 import TelegramIcon from '../components/TelegramIcon';
 
 const FEATURE_KEYS = ['track', 'stats', 'filter'] as const;
@@ -51,7 +50,6 @@ export default function Landing() {
       <section className="contact">
         <h2>{t('landing.contactHeading')}</h2>
         <p>{t('landing.contactSubheading')}</p>
-        <ContactForm />
         <a
           href="https://t.me/liiza1"
           target="_blank"

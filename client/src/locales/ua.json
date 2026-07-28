@@ -70,21 +70,6 @@
     "contactSubheading": "Питання, відгуки чи пропозиції — надішліть повідомлення.",
     "telegramButton": "Написати в Telegram"
   },
-  "contact": {
-    "nameLabel": "Ім'я",
-    "emailLabel": "Email",
-    "messageLabel": "Повідомлення",
-    "submit": "Надіслати",
-    "submitting": "Надсилання...",
-    "success": "Дякуємо! Ваше повідомлення надіслано.",
-    "errors": {
-      "nameRequired": "Ім'я обов'язкове",
-      "emailRequired": "Email обов'язковий",
-      "emailInvalid": "Введіть коректний email",
-      "messageRequired": "Повідомлення обов'язкове",
-      "failed": "Не вдалося надіслати повідомлення. Спробуйте ще раз."
-    }
-  },
   "applications": {
     "title": "Заявки",
     "addButton": "+ Додати заявку",

@@ -35,6 +35,13 @@
   gap: 12px;
 }
 
+.navbar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(0, 0, 0, 0.5);
+}
+
 .navbar-toggle {
   display: none;
   position: relative;
@@ -49,6 +56,13 @@
 }
 
 .navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Guest-only language switcher: inline in the header down to 450px, then collapses behind its own toggle. */
+.navbar-lang-menu {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -70,7 +84,7 @@
     align-items: stretch;
     gap: 12px;
     padding: 16px 24px 24px;
-    background: var(--bg);
+    background: var(--bg-card);
     border-bottom: 1px solid var(--border);
     box-shadow: var(--shadow);
   }
@@ -85,17 +99,61 @@
     text-align: left;
   }
 
+  .navbar-links-secondary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
   .navbar-links a.navbar-user {
+    width: auto;
     justify-content: center;
     text-align: center;
   }
 
-  .lang-switcher {
+  .navbar-links .lang-switcher button {
+    width: auto;
+  }
+
+  .navbar-links > button {
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* The guest toggle only appears once the inline language switcher no longer fits, below 450px. */
+@media (min-width: 450px) {
+  .navbar-toggle-guest {
+    display: none;
+  }
+}
+
+@media (max-width: 449px) {
+  .navbar-lang-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 16px 24px 24px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  .navbar-lang-menu.open {
+    display: flex;
+  }
+
+  .navbar-lang-menu .lang-switcher {
     margin-left: 0;
     padding-left: 0;
     border-left: none;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
   }
 }
 
